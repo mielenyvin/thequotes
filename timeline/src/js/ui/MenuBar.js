@@ -152,11 +152,11 @@ export class MenuBar {
     ================================================== */
     _initLayout() {
 
-        // Create Layout
+        // Create Layout (make "back to start" first so it appears at the top of the list)
+        this._el.button_backtostart = DOM.createButton('tl-menubar-button', this._el.container);
+        this._el.button_forwardtoend = DOM.createButton('tl-menubar-button', this._el.container);
         this._el.button_zoomin = DOM.createButton('tl-menubar-button', this._el.container);
         this._el.button_zoomout = DOM.createButton('tl-menubar-button', this._el.container);
-        this._el.button_forwardtoend = DOM.createButton('tl-menubar-button', this._el.container);
-        this._el.button_backtostart = DOM.createButton('tl-menubar-button', this._el.container);
 
         this._el.button_backtostart.innerHTML = "<span class='tl-icon-goback'></span>";
         this._el.button_backtostart.setAttribute('aria-label', this._('return_to_title'));

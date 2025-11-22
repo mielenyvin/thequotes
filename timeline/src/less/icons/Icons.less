@@ -211,3 +211,22 @@
 .tl-icon-touch-pinch:after {
 	content: "\e604";
 }
+
+/* Use system emoji font for home icon so the house glyph renders reliably */
+.tl-icon-home {
+	/* prefer platform emoji fonts, fall back to sans-serif */
+	font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", Arial, sans-serif;
+	display: inline-block;
+	line-height: 1;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+
+	/* keep same smoothing as other icons */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	/* ensure emoji inherits color/size */
+	color: inherit;
+	font-size: inherit;
+}

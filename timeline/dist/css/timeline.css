@@ -1,8 +1,8 @@
 /*!
 	Timeline JS 3 
-	
+
 	Designed and built by Zach Wise for the Northwestern University Knight Lab
-	
+
 	This Source Code Form is subject to the terms of the Mozilla Public
 	License, v. 2.0. If a copy of the MPL was not distributed with this
 	file, You can obtain one at https://mozilla.org/MPL/2.0/.
@@ -42,6 +42,10 @@
 /*	Mixins.less
 	Snippets of reusable CSS to develop faster and keep code readable
  * ----------------------------------------------------------------- */
+html,
+body {
+  font-family: sans-serif;
+}
 .tl-timeline {
   font-family: inherit;
   /* VCard
@@ -1362,31 +1366,13 @@
   -o-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
   transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 }
-.tl-timeera .tl-timeera-background {
-  position: absolute;
-  background-color: #28a6c3;
-  width: 100%;
-  height: 100%;
-  opacity: 1;
-}
-.tl-timeera.tl-timeera-color0 .tl-timeera-background {
-  background-color: #c34528;
-}
-.tl-timeera.tl-timeera-color1 .tl-timeera-background {
-  background-color: #28a6c3;
-}
-.tl-timeera.tl-timeera-color2 .tl-timeera-background {
-  background-color: #2832c3;
-}
-.tl-timeera.tl-timeera-color3 .tl-timeera-background {
-  background-color: #28c36c;
-}
-.tl-timeera.tl-timeera-color4 .tl-timeera-background {
-  background-color: #286dc3;
-}
-.tl-timeera.tl-timeera-color5 .tl-timeera-background {
-  background-color: #28c3a7;
-}
+.tl-timeera .tl-timeera-background{position:absolute;background-color:#c5a167;width:100%;height:100%;opacity:1}
+.tl-timeera.tl-timeera-color0 .tl-timeera-background{background-color:#404040}
+.tl-timeera.tl-timeera-color1 .tl-timeera-background{background-color:#c5a167}
+.tl-timeera.tl-timeera-color2 .tl-timeera-background{background-color:#032f4c}
+.tl-timeera.tl-timeera-color3 .tl-timeera-background{background-color:#d5b4ab}
+.tl-timeera.tl-timeera-color4 .tl-timeera-background{background-color:#a8adb1}
+.tl-timeera.tl-timeera-color5 .tl-timeera-background{background-color:#404040}
 .tl-timeera .tl-timeera-content-container {
   position: absolute;
   border: 0;
@@ -1589,7 +1575,7 @@
 .tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-major .tl-timeaxis-tick {
   font-size: 12px;
   line-height: 14px;
-  color: #737373;
+  color: #252525;
   width: 100px;
   margin-left: -50px;
 }
@@ -1631,6 +1617,11 @@
 .tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-minor .tl-timeaxis-tick.tl-timeaxis-tick-hidden:before {
   opacity: 0.33;
 }
+
+.tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-minor {
+  display: none !important;
+}
+
 /* Skinny
 ================================================== */
 .tlanimate {

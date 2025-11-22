@@ -54,12 +54,13 @@
       hash_bookmark: true,
       marker_padding: 0,
       marker_height_min: 0,
+      hash_bookmark: false,
       scale_factor: 1,      // растягиваем навигацию по времени, чтобы события разъехались
       initial_zoom: 5       // соответствующий zoom-уровень из zoom_sequence
     });
 
     // Смещаем навигацию ближе к левой части, чтобы маркеры не висели точно по центру
-    const LEFT_BIAS = 0.15; // 25% от ширины вместо 50%
+    const LEFT_BIAS = 0.1; // 25% от ширины вместо 50%
     function biasTimeNav(tnav) {
       if (!tnav || !tnav.animateMovement) return;
       const originalDispatch = tnav._dispatchVisibleTicksChange.bind(tnav);
@@ -71,6 +72,7 @@
         const clampedIndex = Math.max(0, Math.min(n, this._markers.length - 1));
         const leftValue = -this._markers[clampedIndex].getLeft() + center;
         this._el.slider.className = fast ? "tl-timenav-slider" : "tl-timenav-slider tl-timenav-slider-animate";
+        this.animate_css = !fast;
         this._el.slider.style.left = leftValue + "px";
         this.current_id = this._markers[clampedIndex]?.data.unique_id || "";
         originalDispatch();

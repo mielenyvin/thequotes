@@ -164,7 +164,7 @@
 					overflow:hidden;
 					font-weight:normal;
 					margin:0;
-					color:@marker-text-color;
+					color: #242424; // was @marker-text-color
 					position: relative;
 					&.tl-headline-fadeout {
 						&:after {
@@ -280,7 +280,7 @@
 				
 				.tl-timemarker-text {
 					h2.tl-headline {
-						color:@marker-selected-text-color;
+						color: #242424; // was @marker-selected-text-color
 						&.tl-headline-fadeout {
 							&:after {
                                 .marker-text-fade(darken(@marker-color,45),80%);
@@ -385,10 +385,9 @@
 				.tl-timemarker-text {
 					h2.tl-headline {
 						//color:@marker-selected-text-color;
-						color:@color-foreground; 
+						color: #242424; // was @color-foreground in active state
 						&.tl-headline-fadeout {
 							&:after {
-								//.marker-text-fade(@color-theme,80%);
 								.marker-text-fade(@color-background,80%);
 							}
 						}

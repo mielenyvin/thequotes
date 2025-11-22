@@ -39,9 +39,10 @@
 					display:inline-block;
 					//width:100%;
 					white-space: nowrap;
-
 					text-overflow: ellipsis;
 					overflow:hidden;
+					/* explicit color for tick text */
+					color: #242424;
 				}
 				&:before {
 					content: "|";
@@ -146,5 +147,18 @@
 .tl-skinny {
 	.tl-timeaxis {
 
+	}
+}
+
+/* override for minor ticks */
+.tl-timeaxis {
+	.tl-timeaxis-content-container {
+		.tl-timeaxis-minor {
+			.tl-timeaxis-tick {
+				.tl-timeaxis-tick-text {
+					color: @minor-ticks-color;
+				}
+			}
+		}
 	}
 }

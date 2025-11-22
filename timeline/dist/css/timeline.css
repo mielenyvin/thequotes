@@ -323,6 +323,11 @@
   border: 1px solid #faebcc;
   text-shadow: none;
 }
+/* Ensure tl-headline uses the requested color */
+h2.tl-headline {
+  color: #242424;
+  font-weight: 500!important;
+}
 @media only screen and (max-width: 800px), only screen and (max-device-width: 800px) {
   .tl-timeline h1,
   .tl-timeline h2,
@@ -1070,7 +1075,7 @@
   overflow: hidden;
   font-weight: normal;
   margin: 0;
-  color: #bfbfbf;
+  color: #242424;
   position: relative;
 }
 .tl-timemarker .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline.tl-headline-fadeout:after,
@@ -1169,7 +1174,7 @@
 }
 .tl-timemarker:hover .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline,
 .tl-timemarker:focus .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline {
-  color: #FFF;
+  color: #242424;
 }
 .tl-timemarker:hover .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline.tl-headline-fadeout:after,
 .tl-timemarker:focus .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline.tl-headline-fadeout:after {
@@ -1256,7 +1261,7 @@
   box-shadow: 1px 1px 3px rgba(145, 145, 145, 0.5);
 }
 .tl-timemarker.tl-timemarker-active .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline {
-  color: #333;
+  color: #242424;
 }
 .tl-timemarker.tl-timemarker-active .tl-timemarker-content-container .tl-timemarker-content .tl-timemarker-text h2.tl-headline.tl-headline-fadeout:after {
   background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, #FFF 80%);
@@ -1555,6 +1560,8 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  /* explicit color for tick text */
+  color: #242424;
 }
 .tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-major .tl-timeaxis-tick:before,
 .tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-minor .tl-timeaxis-tick:before {
@@ -1642,6 +1649,10 @@
 }
 /* Skinny
 ================================================== */
+/* override for minor ticks */
+.tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-minor .tl-timeaxis-tick .tl-timeaxis-tick-text {
+  color: #bfbfbf;
+}
 .tlanimate {
   -webkit-transform: translateZ(0);
   -webkit-perspective: 1000;

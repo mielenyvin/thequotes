@@ -552,6 +552,18 @@ h2.tl-headline {
 .tl-icon-touch-pinch:after {
   content: "\e604";
 }
+.tl-icon-home:after {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-image: url('/timeline/src/less/icons/home.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-family: initial;
+  color: inherit;
+}
 /* Disable Text selection when dragging
 ================================================== */
 .tl-dragging {

@@ -231,7 +231,7 @@
 	.tl-text {
 		ul {
 			padding:0px;
-			padding-left:30px;
+			padding-left:13px;
 			margin:0;
 			li {
 				margin-bottom:5px;
@@ -309,4 +309,26 @@ h2.tl-headline {
 		margin-top:0px;
 		//padding-top:20px;
 	}
+}
+
+/* Make slide images show zoom cursor and respect container width */
+.tl-slide .tl-slide-content img,
+.tl-slide .tl-slide-content .tl-image-link img {
+	cursor: zoom-in;
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+/* Ensure anchor around image doesn't add underline or affect layout */
+.tl-slide .tl-slide-content .tl-image-link {
+	text-decoration: none;
+	display: inline-block;
+}
+
+/* Optional: slightly enlarge on hover to indicate clickability */
+.tl-slide .tl-slide-content .tl-image-link img:hover {
+	opacity: 0.98;
+	transform: none;
+	transition: opacity 120ms ease;
 }

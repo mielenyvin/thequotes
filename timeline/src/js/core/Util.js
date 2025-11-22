@@ -154,7 +154,7 @@ export function hexToRgb(hex) {
         hex = css_named_colors[hex.toLowerCase()];
     }
     var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+    hex = hex.replace(shorthandRegex, function (m, r, g, b) {
         return r + r + g + g + b + b;
     });
 
@@ -168,11 +168,11 @@ export function hexToRgb(hex) {
 // given an object with r, g, and b keys, or a string of the form 'rgb(mm,nn,ll)', return a CSS hex string including the leading '#' character
 export function rgbToHex(rgb) {
     var r, g, b;
-    if (typeof(rgb) == 'object') {
+    if (typeof (rgb) == 'object') {
         r = rgb.r;
         g = rgb.g;
         b = rgb.b;
-    } else if (typeof(rgb.match) == 'function') {
+    } else if (typeof (rgb.match) == 'function') {
         var parts = rgb.match(/^rgb\((\d+),(\d+),(\d+)\)$/);
         if (parts) {
             r = parts[1];
@@ -251,11 +251,11 @@ export function pad(val, len) {
     return val;
 }
 
-export const stamp = (function() {
+export const stamp = (function () {
     var lastId = 0,
         key = '_tl_id';
 
-    return function( /*Object*/ obj) {
+    return function ( /*Object*/ obj) {
         obj[key] = obj[key] || ++lastId;
         return obj[key];
     };
@@ -267,7 +267,7 @@ export const stamp = (function() {
  * an empty string.
  */
 export function trim(str) {
-    if (str && typeof(str.replace) == 'function') {
+    if (str && typeof (str.replace) == 'function') {
         return str.replace(/^\s+|\s+$/g, '');
     }
     return "";
@@ -377,16 +377,16 @@ export function slugify(str) {
 
 export function unique_ID(size, prefix) {
 
-    var getRandomNumber = function(range) {
+    var getRandomNumber = function (range) {
         return Math.floor(Math.random() * range);
     };
 
-    var getRandomChar = function() {
+    var getRandomChar = function () {
         var chars = "abcdefghijklmnopqurstuvwxyz";
         return chars.substr(getRandomNumber(32), 1);
     };
 
-    var randomID = function(size) {
+    var randomID = function (size) {
         var str = "";
         for (var i = 0; i < size; i++) {
             str += getRandomChar();
@@ -458,12 +458,12 @@ export function setData(obj, data) {
 }
 
 export function htmlify(str) {
+    console.log(str)
     //if (str.match(/<\s*p[^>]*>([^<]*)<\s*\/\s*p\s*>/)) {
     if (str.match(/<p>[\s\S]*?<\/p>/)) {
-
         return str;
     } else {
-        return "<p>" + str + "</p>";
+        return "<div>" + str + "</div>";
     }
 }
 
@@ -476,17 +476,17 @@ export function unhtmlify(str) {
 ================================================== */
 export function linkify(text, targets, is_touch) {
 
-    var make_link = function(url, link_text, prefix) {
-            if (!prefix) {
-                prefix = "";
-            }
-            var MAX_LINK_TEXT_LENGTH = 30;
-            if (link_text && link_text.length > MAX_LINK_TEXT_LENGTH) {
-                link_text = link_text.substring(0, MAX_LINK_TEXT_LENGTH) + "\u2026"; // unicode ellipsis
-            }
-            return prefix + "<a class='tl-makelink' href='" + url + "' onclick='void(0)'>" + link_text + "</a>";
+    var make_link = function (url, link_text, prefix) {
+        if (!prefix) {
+            prefix = "";
         }
-        // http://, https://, ftp://
+        var MAX_LINK_TEXT_LENGTH = 30;
+        if (link_text && link_text.length > MAX_LINK_TEXT_LENGTH) {
+            link_text = link_text.substring(0, MAX_LINK_TEXT_LENGTH) + "\u2026"; // unicode ellipsis
+        }
+        return prefix + "<a class='tl-makelink' href='" + url + "' onclick='void(0)'>" + link_text + "</a>";
+    }
+    // http://, https://, ftp://
     var urlPattern = /\b(?:https?|ftp):\/\/([a-z0-9-+&@#\/%?=~_|!:,.;]*[a-z0-9-+&@#\/%=~_|])/gim;
 
     // www. sans http:// or https://
@@ -497,7 +497,7 @@ export function linkify(text, targets, is_touch) {
 
 
     return text
-        .replace(urlPattern, function(match, url_sans_protocol, offset, string) {
+        .replace(urlPattern, function (match, url_sans_protocol, offset, string) {
             // Javascript doesn't support negative lookbehind assertions, so
             // we need to handle risk of matching URLs in legit hrefs
             if (offset > 0) {
@@ -508,10 +508,10 @@ export function linkify(text, targets, is_touch) {
             }
             return make_link(match, url_sans_protocol);
         })
-        .replace(pseudoUrlPattern, function(match, beforePseudo, pseudoUrl, offset, string) {
+        .replace(pseudoUrlPattern, function (match, beforePseudo, pseudoUrl, offset, string) {
             return make_link('http://' + pseudoUrl, pseudoUrl, beforePseudo);
         })
-        .replace(emailAddressPattern, function(match, email, offset, string) {
+        .replace(emailAddressPattern, function (match, email, offset, string) {
             return make_link('mailto:' + email, email);
         });
 }
@@ -612,11 +612,11 @@ export function getObjectAttributeByIndex(obj, index) {
 
 }
 
-let base58 = (function(alpha) {
+let base58 = (function (alpha) {
     var alphabet = alpha || '123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ',
         base = alphabet.length;
     return {
-        encode: function(enc) {
+        encode: function (enc) {
             if (typeof enc !== 'number' || enc !== parseInt(enc))
                 throw '"encode" only accepts integers.';
             var encoded = '';
@@ -627,7 +627,7 @@ let base58 = (function(alpha) {
             }
             return encoded;
         },
-        decode: function(dec) {
+        decode: function (dec) {
             if (typeof dec !== 'string')
                 throw '"decode" only accepts strings.';
             var decoded = 0;
@@ -649,7 +649,7 @@ export { base58 }
 
 export function parseYouTubeTime(s) {
     // given a YouTube start time string in a reasonable format, reduce it to a number of seconds as an integer.
-    if (typeof(s) == 'string') {
+    if (typeof (s) == 'string') {
         let parts = s.match(/^\s*(\d+h)?(\d+m)?(\d+s)?\s*/i);
         if (parts) {
             var hours = parseInt(parts[1]) || 0;
@@ -657,7 +657,7 @@ export function parseYouTubeTime(s) {
             var seconds = parseInt(parts[3]) || 0;
             return seconds + (minutes * 60) + (hours * 60 * 60);
         }
-    } else if (typeof(s) == 'number') {
+    } else if (typeof (s) == 'number') {
         return s;
     }
     return 0;

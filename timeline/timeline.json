@@ -10,161 +10,482 @@
   },
   "events": [
     {
-      "start_date": { "year": 1678 },
-      "end_date": { "year": 1741 },
+      "start_date": {
+        "year": 1678
+      },
+      "end_date": {
+        "year": 1741
+      },
       "text": {
         "headline": "Antonio Vivaldi",
-        "text": "<ul><li>Итальянский композитор, скрипач-виртуоз</li><li>Обогатил скрипичную музыку новым жанром одиночного инструментального концерта</li><li>В возрасте пятнадцати лет принял сан священника</li><li>Автор 500 концертов для разных видов инструментов. Впервые ввел духовые инструменты в состав оркестра</li><li>Вивальди оказал значительное влияние на творчество более знаменитого его последователя – И.С. Баха</li><li>Вивальди оказал значительное влияние на творчество более знаменитого его последователя – И.С. Баха</li><li>Вивальди оказал значительное влияние на творчество более знаменитого его последователя – И.С. Баха</li><li>Вивальди оказал значительное влияние на творчество более знаменитого его последователя – И.С. Баха</li><li>Вивальди оказал значительное влияние на творчество более знаменитого его последователя – И.С. Баха</li><li>Вивальди оказал значительное влияние на творчество более знаменитого его последователя – И.С. Баха</li><li>Вивальди оказал значительное влияние на творчество более знаменитого его последователя – И.С. Баха</li><li>Вивальди оказал значительное влияние на творчество более знаменитого его последователя – И.С. Баха</li><li>Вивальди оказал значительное влияние на творчество более знаменитого его последователя – И.С. Баха</li></ul>"
+        "text": "<div><a href=\"/knightlab/vivaldi.png\"><img src=\"/knightlab/vivaldi.png\" alt=\"Antonio Vivaldi\" style=\"float:right;height:20vw;max-height:300px;margin:0 0 8px 12px;\" /></a><ul><li>Italian Baroque composer, virtuoso violinist, and Catholic priest from Venice.</li><li>He is best known for the violin concertos “The Four Seasons”, which vividly depict scenes like spring storms and winter freezes.</li><li>Vivaldi wrote more than 500 concertos, as well as numerous operas, sacred works, and chamber pieces.</li><li>For many years he worked at the Ospedale della Pietà in Venice, a girls’ orphanage, where he trained and wrote music for a renowned orchestra and choir.</li><li>After his death his music was largely forgotten until the 20th century, when it was rediscovered and he became one of the most frequently performed Baroque composers.</li></ul><div style=\"clear:both;\"></div></div>"
       }
-    }
-    ,
-    {
-      "start_date": {"year": "1685"}, "end_date": {"year": "1750"},
-      "text": {"headline": "Johann Sebastian Bach", "text": "To be added later"}
     },
     {
-      "start_date": {"year": "1685"}, "end_date": {"year": "1757"},
-      "text": {"headline": "Domenico Scarlatti", "text": "To be added later"}
+      "start_date": {
+        "year": "1685"
+      },
+      "end_date": {
+        "year": "1750"
+      },
+      "text": {
+        "headline": "Johann Sebastian Bach",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1685"}, "end_date": {"year": "1759"},
-      "text": {"headline": "George Frideric Handel", "text": "To be added later"}
+      "start_date": {
+        "year": "1685"
+      },
+      "end_date": {
+        "year": "1757"
+      },
+      "text": {
+        "headline": "Domenico Scarlatti",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1732"}, "end_date": {"year": "1809"},
-      "text": {"headline": "Joseph Haydn", "text": "To be added later"}
+      "start_date": {
+        "year": "1685"
+      },
+      "end_date": {
+        "year": "1759"
+      },
+      "text": {
+        "headline": "George Frideric Handel",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1756"}, "end_date": {"year": "1791"},
-      "text": {"headline": "Wolfgang Amadeus Mozart", "text": "To be added later"}
+      "start_date": {
+        "year": "1732"
+      },
+      "end_date": {
+        "year": "1809"
+      },
+      "text": {
+        "headline": "Joseph Haydn",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1770"}, "end_date": {"year": "1827"},
-      "text": {"headline": "Ludwig van Beethoven", "text": "To be added later"}
+      "start_date": {
+        "year": "1756"
+      },
+      "end_date": {
+        "year": "1791"
+      },
+      "text": {
+        "headline": "Wolfgang Amadeus Mozart",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1782"}, "end_date": {"year": "1840"},
-      "text": {"headline": "Niccolò Paganini", "text": "To be added later"}
+      "start_date": {
+        "year": "1770"
+      },
+      "end_date": {
+        "year": "1827"
+      },
+      "text": {
+        "headline": "Ludwig van Beethoven",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1791"}, "end_date": {"year": "1857"},
-      "text": {"headline": "Carl Czerny", "text": "To be added later"}
+      "start_date": {
+        "year": "1782"
+      },
+      "end_date": {
+        "year": "1840"
+      },
+      "text": {
+        "headline": "Niccolò Paganini",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1797"}, "end_date": {"year": "1828"},
-      "text": {"headline": "Franz Schubert", "text": "To be added later"}
+      "start_date": {
+        "year": "1791"
+      },
+      "end_date": {
+        "year": "1857"
+      },
+      "text": {
+        "headline": "Carl Czerny",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1804"}, "end_date": {"year": "1857"},
-      "text": {"headline": "Mikhail Glinka", "text": "To be added later"}
-    }
-    ,
-    {
-      "start_date": {"year": "1804"}, "end_date": {"year": "1849"},
-      "text": {"headline": "Johann Strauss I", "text": "To be added later"}
+      "start_date": {
+        "year": "1797"
+      },
+      "end_date": {
+        "year": "1828"
+      },
+      "text": {
+        "headline": "Franz Schubert",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1809"}, "end_date": {"year": "1847"},
-      "text": {"headline": "Felix Mendelssohn", "text": "To be added later"}
+      "start_date": {
+        "year": "1804"
+      },
+      "end_date": {
+        "year": "1857"
+      },
+      "text": {
+        "headline": "Mikhail Glinka",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1810"}, "end_date": {"year": "1849"},
-      "text": {"headline": "Frédéric Chopin", "text": "To be added later"}
+      "start_date": {
+        "year": "1804"
+      },
+      "end_date": {
+        "year": "1849"
+      },
+      "text": {
+        "headline": "Johann Strauss I",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1810"}, "end_date": {"year": "1856"},
-      "text": {"headline": "Robert Schumann", "text": "To be added later"}
+      "start_date": {
+        "year": "1809"
+      },
+      "end_date": {
+        "year": "1847"
+      },
+      "text": {
+        "headline": "Felix Mendelssohn",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1811"}, "end_date": {"year": "1886"},
-      "text": {"headline": "Franz Liszt", "text": "To be added later"}
+      "start_date": {
+        "year": "1810"
+      },
+      "end_date": {
+        "year": "1849"
+      },
+      "text": {
+        "headline": "Frédéric Chopin",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1813"}, "end_date": {"year": "1883"},
-      "text": {"headline": "Richard Wagner", "text": "To be added later"}
+      "start_date": {
+        "year": "1810"
+      },
+      "end_date": {
+        "year": "1856"
+      },
+      "text": {
+        "headline": "Robert Schumann",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1813"}, "end_date": {"year": "1901"},
-      "text": {"headline": "Giuseppe Verdi", "text": "To be added later"}
-    }
-    ,
-    {
-      "start_date": {"year": "1825"}, "end_date": {"year": "1899"},
-      "text": {"headline": "Johann Strauss II", "text": "To be added later"}
+      "start_date": {
+        "year": "1811"
+      },
+      "end_date": {
+        "year": "1886"
+      },
+      "text": {
+        "headline": "Franz Liszt",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1833"}, "end_date": {"year": "1897"},
-      "text": {"headline": "Johannes Brahms", "text": "To be added later"}
+      "start_date": {
+        "year": "1813"
+      },
+      "end_date": {
+        "year": "1883"
+      },
+      "text": {
+        "headline": "Richard Wagner",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1833"}, "end_date": {"year": "1887"},
-      "text": {"headline": "Alexander Borodin", "text": "To be added later"}
+      "start_date": {
+        "year": "1813"
+      },
+      "end_date": {
+        "year": "1901"
+      },
+      "text": {
+        "headline": "Giuseppe Verdi",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1835"}, "end_date": {"year": "1921"},
-      "text": {"headline": "Camille Saint-Saëns", "text": "To be added later"}
+      "start_date": {
+        "year": "1825"
+      },
+      "end_date": {
+        "year": "1899"
+      },
+      "text": {
+        "headline": "Johann Strauss II",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1838"}, "end_date": {"year": "1875"},
-      "text": {"headline": "Georges Bizet", "text": "To be added later"}
+      "start_date": {
+        "year": "1833"
+      },
+      "end_date": {
+        "year": "1897"
+      },
+      "text": {
+        "headline": "Johannes Brahms",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1839"}, "end_date": {"year": "1881"},
-      "text": {"headline": "Modest Mussorgsky", "text": "To be added later"}
+      "start_date": {
+        "year": "1833"
+      },
+      "end_date": {
+        "year": "1887"
+      },
+      "text": {
+        "headline": "Alexander Borodin",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1840"}, "end_date": {"year": "1893"},
-      "text": {"headline": "Pyotr Ilyich Tchaikovsky", "text": "To be added later"}
+      "start_date": {
+        "year": "1835"
+      },
+      "end_date": {
+        "year": "1921"
+      },
+      "text": {
+        "headline": "Camille Saint-Saëns",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1841"}, "end_date": {"year": "1904"},
-      "text": {"headline": "Antonín Dvořák", "text": "To be added later"}
+      "start_date": {
+        "year": "1838"
+      },
+      "end_date": {
+        "year": "1875"
+      },
+      "text": {
+        "headline": "Georges Bizet",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1843"}, "end_date": {"year": "1907"},
-      "text": {"headline": "Edvard Grieg", "text": "To be added later"}
+      "start_date": {
+        "year": "1839"
+      },
+      "end_date": {
+        "year": "1881"
+      },
+      "text": {
+        "headline": "Modest Mussorgsky",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1844"}, "end_date": {"year": "1908"},
-      "text": {"headline": "Nikolai Rimsky-Korsakov", "text": "To be added later"}
+      "start_date": {
+        "year": "1840"
+      },
+      "end_date": {
+        "year": "1893"
+      },
+      "text": {
+        "headline": "Pyotr Ilyich Tchaikovsky",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1860"}, "end_date": {"year": "1911"},
-      "text": {"headline": "Gustav Mahler", "text": "To be added later"}
+      "start_date": {
+        "year": "1841"
+      },
+      "end_date": {
+        "year": "1904"
+      },
+      "text": {
+        "headline": "Antonín Dvořák",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1862"}, "end_date": {"year": "1918"},
-      "text": {"headline": "Claude Debussy", "text": "To be added later"}
+      "start_date": {
+        "year": "1843"
+      },
+      "end_date": {
+        "year": "1907"
+      },
+      "text": {
+        "headline": "Edvard Grieg",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1866"}, "end_date": {"year": "1925"},
-      "text": {"headline": "Erik Satie", "text": "To be added later"}
+      "start_date": {
+        "year": "1844"
+      },
+      "end_date": {
+        "year": "1908"
+      },
+      "text": {
+        "headline": "Nikolai Rimsky-Korsakov",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1872"}, "end_date": {"year": "1915"},
-      "text": {"headline": "Alexander Scriabin", "text": "To be added later"}
+      "start_date": {
+        "year": "1860"
+      },
+      "end_date": {
+        "year": "1911"
+      },
+      "text": {
+        "headline": "Gustav Mahler",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1873"}, "end_date": {"year": "1943"},
-      "text": {"headline": "Sergei Rachmaninoff", "text": "To be added later"}
+      "start_date": {
+        "year": "1862"
+      },
+      "end_date": {
+        "year": "1918"
+      },
+      "text": {
+        "headline": "Claude Debussy",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1875"}, "end_date": {"year": "1937"},
-      "text": {"headline": "Maurice Ravel", "text": "To be added later"}
+      "start_date": {
+        "year": "1866"
+      },
+      "end_date": {
+        "year": "1925"
+      },
+      "text": {
+        "headline": "Erik Satie",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1882"}, "end_date": {"year": "1971"},
-      "text": {"headline": "Igor Stravinsky", "text": "To be added later"}
+      "start_date": {
+        "year": "1872"
+      },
+      "end_date": {
+        "year": "1915"
+      },
+      "text": {
+        "headline": "Alexander Scriabin",
+        "text": "To be added later"
+      }
     },
     {
-      "start_date": {"year": "1891"}, "end_date": {"year": "1953"},
-      "text": {"headline": "Sergei Prokofiev", "text": "To be added later"}
+      "start_date": {
+        "year": "1873"
+      },
+      "end_date": {
+        "year": "1943"
+      },
+      "text": {
+        "headline": "Sergei Rachmaninoff",
+        "text": "To be added later"
+      }
+    },
+    {
+      "start_date": {
+        "year": "1875"
+      },
+      "end_date": {
+        "year": "1937"
+      },
+      "text": {
+        "headline": "Maurice Ravel",
+        "text": "To be added later"
+      }
+    },
+    {
+      "start_date": {
+        "year": "1882"
+      },
+      "end_date": {
+        "year": "1971"
+      },
+      "text": {
+        "headline": "Igor Stravinsky",
+        "text": "To be added later"
+      }
+    },
+    {
+      "start_date": {
+        "year": "1891"
+      },
+      "end_date": {
+        "year": "1953"
+      },
+      "text": {
+        "headline": "Sergei Prokofiev",
+        "text": "To be added later"
+      }
     }
   ],
   "eras": [
-    {"start_date": {"year": "1600"}, "end_date": {"year": "1750"}, "text": {"headline": "Барокко"}},
-    {"start_date": {"year": "1750"}, "end_date": {"year": "1820"}, "text": {"headline": "Классицизм"}},
-    {"start_date": {"year": "1820"}, "end_date": {"year": "1900"}, "text": {"headline": "Романтизм"}},
-    {"start_date": {"year": "1900"}, "end_date": {"year": "2000"}, "text": {"headline": "XX век"}}
+    {
+      "start_date": {
+        "year": "1600"
+      },
+      "end_date": {
+        "year": "1750"
+      },
+      "text": {
+        "headline": "Барокко"
+      }
+    },
+    {
+      "start_date": {
+        "year": "1750"
+      },
+      "end_date": {
+        "year": "1820"
+      },
+      "text": {
+        "headline": "Классицизм"
+      }
+    },
+    {
+      "start_date": {
+        "year": "1820"
+      },
+      "end_date": {
+        "year": "1900"
+      },
+      "text": {
+        "headline": "Романтизм"
+      }
+    },
+    {
+      "start_date": {
+        "year": "1900"
+      },
+      "end_date": {
+        "year": "2000"
+      },
+      "text": {
+        "headline": "XX век"
+      }
+    }
   ]
 }

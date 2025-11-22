@@ -108,6 +108,42 @@ export class Text {
 			text_content += htmlify(this.options.autolink == true ? linkify(this.data.text) : this.data.text);
 			this._el.content				= DOM.create("div", "tl-text-content", this._el.content_container);
 			this._el.content.innerHTML		= text_content;
+
+			// Make images with class `tl-expandable-img` expandable on click
+			var expandableLinks = this._el.content.querySelectorAll('.tl-expandable-img-link');
+			if (expandableLinks && expandableLinks.length > 0) {
+				Array.prototype.forEach.call(expandableLinks, function(link) {
+					var img = link.querySelector('img.tl-expandable-img');
+					if (!img) { return; }
+
+					// Store original sizes so we can restore them later
+					if (!img.dataset.originalHeight) {
+						img.dataset.originalHeight = img.style.height || "";
+					}
+					if (!img.dataset.originalMaxHeight) {
+						img.dataset.originalMaxHeight = img.style.maxHeight || "";
+					}
+					if (!img.dataset.expanded) {
+						img.dataset.expanded = "0";
+					}
+
+					link.addEventListener('click', function(e) {
+						e.preventDefault();
+
+						if (img.dataset.expanded === "1") {
+							// collapse back to original size
+							img.style.height = img.dataset.originalHeight;
+							img.style.maxHeight = img.dataset.originalMaxHeight;
+							img.dataset.expanded = "0";
+						} else {
+							// expand image
+							img.style.height = "auto";
+							img.style.maxHeight = "none";
+							img.dataset.expanded = "1";
+						}
+					});
+				});
+			}
 		}
 
 		// Fire event that the slide is loaded

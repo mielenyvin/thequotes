@@ -602,6 +602,24 @@ export class TimeNav {
     }
 
     _onMarkerClick(e) {
+        // Pause SoundCloud widget (if present) when clicking on a timenav marker
+        try {
+            if (typeof window !== 'undefined' && window.SC && typeof window.SC.Widget === 'function') {
+                // Try to find a SoundCloud iframe inside the timeline embed first
+                var iframe = document.querySelector('#timeline-embed iframe[src*="w.soundcloud.com/player"]');
+                if (!iframe) {
+                    // Fallback: search any SoundCloud player iframe on the page
+                    iframe = document.querySelector('iframe[src*="w.soundcloud.com/player"]');
+                }
+                if (iframe) {
+                    var widget = window.SC.Widget(iframe);
+                    widget.pause();
+                }
+            }
+        } catch (err) {
+            // Fail silently if SoundCloud API is not available
+        }
+
         // Go to the clicked marker
         this.goToId(e.unique_id);
         this.fire("change", { unique_id: e.unique_id });

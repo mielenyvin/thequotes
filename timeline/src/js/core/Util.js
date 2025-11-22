@@ -458,7 +458,6 @@ export function setData(obj, data) {
 }
 
 export function htmlify(str) {
-    console.log(str)
     //if (str.match(/<\s*p[^>]*>([^<]*)<\s*\/\s*p\s*>/)) {
     if (str.match(/<p>[\s\S]*?<\/p>/)) {
         return str;

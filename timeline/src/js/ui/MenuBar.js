@@ -139,6 +139,7 @@ export class MenuBar {
     }
 
     _onButtonBackToStart(e) {
+        this._pauseSoundCloud();
         this.fire("back_to_start", e);
     }
 
@@ -191,6 +192,25 @@ export class MenuBar {
             this._el.button_zoomout.setAttribute('aria-description',
                 this._("aria_label_zoomout",
                     this.data.visible_ticks_dates));
+        }
+    }
+    _pauseSoundCloud() {
+        // Pause SoundCloud widget (if present) when interacting with menubar buttons
+        try {
+            if (typeof window !== 'undefined' && window.SC && typeof window.SC.Widget === 'function') {
+                // Try to find a SoundCloud iframe inside the timeline embed first
+                var iframe = document.querySelector('#timeline-embed iframe[src*="w.soundcloud.com/player"]');
+                if (!iframe) {
+                    // Fallback: search any SoundCloud player iframe on the page
+                    iframe = document.querySelector('iframe[src*="w.soundcloud.com/player"]');
+                }
+                if (iframe) {
+                    var widget = window.SC.Widget(iframe);
+                    widget.pause();
+                }
+            }
+        } catch (e) {
+            // Fail silently if SoundCloud API is not available
         }
     }
 }

@@ -78,6 +78,24 @@ export class SlideNav {
 	/*	Events
 	================================================== */
 	_onMouseClick() {
+		// Pause SoundCloud widget (if present) when navigating between slides
+		try {
+			if (typeof window !== 'undefined' && window.SC && typeof window.SC.Widget === 'function') {
+				// Find a SoundCloud iframe inside the timeline embed
+				var iframe = document.querySelector('#timeline-embed iframe[src*="w.soundcloud.com/player"]');
+				if (!iframe) {
+					// Fallback: search any SoundCloud player iframe on the page
+					iframe = document.querySelector('iframe[src*="w.soundcloud.com/player"]');
+				}
+				if (iframe) {
+					var widget = window.SC.Widget(iframe);
+					widget.pause();
+				}
+			}
+		} catch (e) {
+			// Fail silently if SoundCloud API is not available
+		}
+
 		this.fire("clicked", this.options);
 	}
 	

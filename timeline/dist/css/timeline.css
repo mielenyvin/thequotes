@@ -27,6 +27,12 @@
 ================================================== */
 /* GFX
 ================================================== */
+.tl-timemarker-content-container {
+  height: 24px!important;
+}
+.tl-timemarker-timespan-content {
+  height: 24px!important;
+}
 /*!
 	Timeline JS 3
 
@@ -1364,28 +1370,28 @@
 }
 .tl-timeera .tl-timeera-background {
   position: absolute;
-  background-color: #d9d9d9;
+  background-color: #8c8c8c;
   width: 100%;
   height: 100%;
   opacity: 1;
 }
 .tl-timeera.tl-timeera-color0 .tl-timeera-background {
-  background-color: #f2f2f2;
+  background-color: #737373;
 }
 .tl-timeera.tl-timeera-color1 .tl-timeera-background {
-  background-color: #d9d9d9;
-}
-.tl-timeera.tl-timeera-color2 .tl-timeera-background {
-  background-color: #bfbfbf;
-}
-.tl-timeera.tl-timeera-color3 .tl-timeera-background {
-  background-color: #a6a6a6;
-}
-.tl-timeera.tl-timeera-color4 .tl-timeera-background {
   background-color: #8c8c8c;
 }
+.tl-timeera.tl-timeera-color2 .tl-timeera-background {
+  background-color: #a6a6a6;
+}
+.tl-timeera.tl-timeera-color3 .tl-timeera-background {
+  background-color: #bfbfbf;
+}
+.tl-timeera.tl-timeera-color4 .tl-timeera-background {
+  background-color: #d9d9d9;
+}
 .tl-timeera.tl-timeera-color5 .tl-timeera-background {
-  background-color: #737373;
+  background-color: #f2f2f2;
 }
 .tl-timeera .tl-timeera-content-container {
   position: absolute;

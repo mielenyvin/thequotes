@@ -179,7 +179,7 @@
 }
 .tl-timeline blockquote,
 .tl-timeline blockquote p {
-  font-family: inherit;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #ffffff;
   font-size: 24px;
   line-height: 24px;
@@ -1599,6 +1599,9 @@
   line-height: 18px;
   margin-bottom: 2px;
   margin-left: 50px;
+}
+.tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-minor {
+  display: none !important;
 }
 .tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-minor .tl-timeaxis-tick {
   font-size: 10px;

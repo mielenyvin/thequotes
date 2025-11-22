@@ -1,8 +1,8 @@
 /*!
 	Timeline JS 3 
-
+	
 	Designed and built by Zach Wise for the Northwestern University Knight Lab
-
+	
 	This Source Code Form is subject to the terms of the Mozilla Public
 	License, v. 2.0. If a copy of the MPL was not distributed with this
 	file, You can obtain one at https://mozilla.org/MPL/2.0/.
@@ -42,12 +42,8 @@
 /*	Mixins.less
 	Snippets of reusable CSS to develop faster and keep code readable
  * ----------------------------------------------------------------- */
-html,
-body {
-  font-family: sans-serif;
-}
 .tl-timeline {
-  font-family: inherit;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   /* VCard
 	================================================== */
 }
@@ -183,7 +179,7 @@ body {
 }
 .tl-timeline blockquote,
 .tl-timeline blockquote p {
-  font-family: inherit;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #999999;
   font-size: 24px;
   line-height: 24px;
@@ -194,7 +190,7 @@ body {
 }
 .tl-timeline blockquote cite,
 .tl-timeline blockquote p cite {
-  font-family: inherit;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 11px;
   color: #666666;
   display: block;
@@ -228,7 +224,7 @@ body {
   margin: 0;
 }
 .tl-timeline .vcard {
-  font-family: inherit;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 15px;
   line-height: 15px;
   margin-bottom: 15px;
@@ -308,7 +304,7 @@ body {
 }
 .tl-timeline .tl-note {
   display: block;
-  font-family: inherit;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-style: italic;
   background-color: #fcf8e3;
   font-size: 15px;
@@ -1366,13 +1362,31 @@ body {
   -o-transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
   transition-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
 }
-.tl-timeera .tl-timeera-background{position:absolute;background-color:#c5a167;width:100%;height:100%;opacity:1}
-.tl-timeera.tl-timeera-color0 .tl-timeera-background{background-color:#404040}
-.tl-timeera.tl-timeera-color1 .tl-timeera-background{background-color:#c5a167}
-.tl-timeera.tl-timeera-color2 .tl-timeera-background{background-color:#032f4c}
-.tl-timeera.tl-timeera-color3 .tl-timeera-background{background-color:#d5b4ab}
-.tl-timeera.tl-timeera-color4 .tl-timeera-background{background-color:#a8adb1}
-.tl-timeera.tl-timeera-color5 .tl-timeera-background{background-color:#404040}
+.tl-timeera .tl-timeera-background {
+  position: absolute;
+  background-color: #d9d9d9;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+.tl-timeera.tl-timeera-color0 .tl-timeera-background {
+  background-color: #f2f2f2;
+}
+.tl-timeera.tl-timeera-color1 .tl-timeera-background {
+  background-color: #d9d9d9;
+}
+.tl-timeera.tl-timeera-color2 .tl-timeera-background {
+  background-color: #bfbfbf;
+}
+.tl-timeera.tl-timeera-color3 .tl-timeera-background {
+  background-color: #a6a6a6;
+}
+.tl-timeera.tl-timeera-color4 .tl-timeera-background {
+  background-color: #8c8c8c;
+}
+.tl-timeera.tl-timeera-color5 .tl-timeera-background {
+  background-color: #737373;
+}
 .tl-timeera .tl-timeera-content-container {
   position: absolute;
   border: 0;
@@ -1575,7 +1589,7 @@ body {
 .tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-major .tl-timeaxis-tick {
   font-size: 12px;
   line-height: 14px;
-  color: #252525;
+  color: #737373;
   width: 100px;
   margin-left: -50px;
 }
@@ -1585,6 +1599,9 @@ body {
   line-height: 18px;
   margin-bottom: 2px;
   margin-left: 50px;
+}
+.tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-minor {
+  display: none !important;
 }
 .tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-minor .tl-timeaxis-tick {
   font-size: 11px;
@@ -1617,11 +1634,6 @@ body {
 .tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-minor .tl-timeaxis-tick.tl-timeaxis-tick-hidden:before {
   opacity: 0.33;
 }
-
-.tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-minor {
-  display: none !important;
-}
-
 /* Skinny
 ================================================== */
 .tlanimate {
@@ -2470,7 +2482,7 @@ body {
 }
 .tl-text .tl-headline-date,
 .tl-text h3.tl-headline-date {
-  font-family: inherit;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 15px;
   line-height: 1;
   font-weight: normal;
@@ -2488,7 +2500,7 @@ body {
 }
 .tl-text .tl-text-date {
   display: inline-block;
-  font-family: inherit;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
   margin-top: 10px;
   font-size: 12px;

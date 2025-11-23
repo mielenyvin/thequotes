@@ -326,7 +326,7 @@
 /* Ensure tl-headline uses the requested color */
 h2.tl-headline {
   color: #242424;
-  font-weight: 500!important;
+  font-weight: 500 !important;
 }
 @media only screen and (max-width: 800px), only screen and (max-device-width: 800px) {
   .tl-timeline h1,
@@ -1684,6 +1684,9 @@ h2.tl-headline {
 .tl-timeaxis .tl-timeaxis-content-container .tl-timeaxis-minor .tl-timeaxis-tick .tl-timeaxis-tick-text {
   color: #bfbfbf;
 }
+#tl-timeaxis.tl-skinny {
+  height: 5px;
+}
 .tlanimate {
   -webkit-transform: translateZ(0);
   -webkit-perspective: 1000;
@@ -1754,7 +1757,7 @@ h2.tl-headline {
   height: 100%;
   padding-left: 90px;
   padding-right: 90px;
-  padding-bottom: 10px;
+  padding-bottom: 0px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -1874,12 +1877,11 @@ h2.tl-headline {
   max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  background: #ebebeb;
 }
 @media screen and (max-width: 650px) {
   .tl-slide .tl-slide-content-container {
-    padding-left: 35px;
-    padding-right: 35px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 }
 /* Background
@@ -2515,6 +2517,7 @@ h2.tl-headline {
   display: inline-flex;
   width: 100%;
   align-items: baseline;
+  justify-content: center;
   gap: 10px;
   min-height: 1em;
 }
@@ -2598,8 +2601,10 @@ h2.tl-headline {
 }
 .tl-skinny .tl-text h2.tl-headline-title,
 .tl-skinny .tl-text h2.tl-headline {
-  font-size: 24px;
-  line-height: 24px;
+  font-size: 22px;
+  line-height: 22px;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 /* Medium
 ================================================== */

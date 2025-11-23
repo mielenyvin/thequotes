@@ -110,7 +110,7 @@ class Timeline {
             base_class: "tl-timeline", // removing tl-timeline will break all default stylesheets...
             timenav_height: null,
             timenav_height_percentage: 25, // Overrides timenav height as a percentage of the screen
-            timenav_height_min: 175, // Minimum timenav height
+            timenav_height_min: 150, // Minimum timenav height
             marker_height_min: 30, // Minimum Marker Height
             marker_width_min: 100, // Minimum Marker Width
             marker_padding: 5, // Top Bottom Marker Padding

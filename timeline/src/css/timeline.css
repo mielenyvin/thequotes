@@ -2486,6 +2486,8 @@ body {
 .tl-skinny .tl-text h2.tl-headline {
   font-size: 32px;
   line-height: 36px;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 /* Medium
 ================================================== */

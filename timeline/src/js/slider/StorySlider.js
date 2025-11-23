@@ -168,7 +168,13 @@ export class StorySlider {
         this.slide_spacing = this.options.width * 2;
 
         // position navigation
-        nav_pos = (this.options.height / 2);
+        if (this.options.layout === "portrait") {
+            // Mobile / skinny layout: keep nav buttons near the top
+            nav_pos = 8;
+        } else {
+            // Default (desktop) layout: center vertically
+            nav_pos = (this.options.height / 2);
+        }
         this._nav.next.setPosition({ top: nav_pos });
         this._nav.previous.setPosition({ top: nav_pos });
 

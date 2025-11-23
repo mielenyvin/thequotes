@@ -28,7 +28,7 @@
         var widget = SC.Widget(iframe);
         widget.pause();
       } catch (e) {
-        // Fail silently if SC is not available
+        // Fail silently if SoundCloud API is not available
         console.error('Could not control SoundCloud widget:', e);
       }
     });
@@ -60,6 +60,24 @@
       box-sizing: border-box;
       overflow: hidden;
     }
+
+    #collapse_timeline {
+      position: absolute;
+      z-index: 1000;
+      padding: 5px 15px;
+      font-size: 12px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      border-radius: 4px 4px 0px 0px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background-color 0.2s;
+    }
+
+    #collapse_timeline:hover {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
   </style>
 </head>
 
@@ -81,7 +99,7 @@
     }
 
     window.timeline = new TL.Timeline("timeline-embed", timelineJson, {
-      timenav_height_percentage: 23,
+      timenav_height_percentage: 26,
       timenav_position: "bottom",
       hash_bookmark: true,
       marker_padding: 0,
@@ -101,7 +119,7 @@
           this.animator.stop();
         }
         const center = this.options.width * LEFT_BIAS;
-        const clampedIndex = Math.max(0, Math.min(n, this._markers.length - 1));
+        const clampedIndex = Math.max(0, Math.min(n, this._markers.length - 0));
         const leftValue = -this._markers[clampedIndex].getLeft() + center;
         this._el.slider.className = fast ? "tl-timenav-slider" : "tl-timenav-slider tl-timenav-slider-animate";
         this.animate_css = !fast;
@@ -113,7 +131,39 @@
     }
 
     if (window.timeline && window.timeline.on) {
-      window.timeline.on("ready", () => biasTimeNav(window.timeline._timenav));
+      window.timeline.on("ready", () => {
+        biasTimeNav(window.timeline._timenav);
+        // Добавляем кнопку Collapse над timenav
+        const timenav = document.querySelector('.tl-timenav');
+        if (timenav && !document.getElementById('collapse_timeline')) {
+          const collapseBtn = document.createElement('button');
+          collapseBtn.id = 'collapse_timeline';
+          collapseBtn.textContent = 'Expand';
+          // Вставляем кнопку в контейнер перед timenav
+          timenav.parentElement.insertBefore(collapseBtn, timenav);
+          // Позиционируем кнопку справа, чуть выше правого верхнего угла timenav
+          function positionButton() {
+            const timenavRect = timenav.getBoundingClientRect();
+            const containerRect = embed.getBoundingClientRect();
+            // Позиция справа: расстояние от правого края контейнера до правого края timenav
+            collapseBtn.style.right = (containerRect.right - timenavRect.right) + 10 + 'px';
+            // Позиция снизу: расстояние от низа контейнера до верха timenav + небольшой отступ вверх
+            collapseBtn.style.bottom = (containerRect.bottom - timenavRect.top - 1) + 'px';
+          }
+          // Используем setTimeout чтобы убедиться, что layout завершен
+          setTimeout(positionButton, 0);
+          const resizeHandler = () => {
+            if (timenav && collapseBtn.parentElement) {
+              positionButton();
+            }
+          };
+          window.addEventListener('resize', resizeHandler);
+          // Также обновляем позицию при изменении размера viewport
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', resizeHandler);
+          }
+        }
+      });
     }
 
     resizeToViewport();
@@ -122,6 +172,76 @@
     if (window.visualViewport) {
       window.visualViewport.addEventListener("resize", resizeToViewport);
     }
+
+    // Сохраняем текущее состояние timeline
+    let isCollapsed = false;
+
+    document.addEventListener('click', function (event) {
+      if (event.target && event.target.id === 'collapse_timeline') {
+        isCollapsed = !isCollapsed;
+
+        // Сохраняем текущий слайд
+        const currentSlide = window.timeline.current_id;
+
+        // Удаляем старый timeline
+        const embed = document.getElementById("timeline-embed");
+        embed.innerHTML = '';
+
+        // Создаём новый timeline с новой высотой
+        window.timeline = new TL.Timeline("timeline-embed", timelineJson, {
+          timenav_height_percentage: isCollapsed ? 50 : 26,
+          timenav_position: "bottom",
+          hash_bookmark: true,
+          marker_padding: 0,
+          marker_height_min: 0,
+          scale_factor: 1,
+          initial_zoom: 5
+        });
+
+        // После загрузки возвращаемся на тот же слайд
+        if (window.timeline && window.timeline.on) {
+          window.timeline.on("ready", () => {
+            biasTimeNav(window.timeline._timenav);
+            // Добавляем кнопку Collapse над timenav
+            const timenav = document.querySelector('.tl-timenav');
+            if (timenav && !document.getElementById('collapse_timeline')) {
+              const collapseBtn = document.createElement('button');
+              collapseBtn.id = 'collapse_timeline';
+              collapseBtn.textContent = isCollapsed ? 'Collapse' : 'Expand';
+              // Вставляем кнопку в контейнер перед timenav
+              timenav.parentElement.insertBefore(collapseBtn, timenav);
+              // Позиционируем кнопку справа, чуть выше правого верхнего угла timenav
+              function positionButton() {
+                const timenavRect = timenav.getBoundingClientRect();
+                const containerRect = embed.getBoundingClientRect();
+                // Позиция справа: расстояние от правого края контейнера до правого края timenav
+                collapseBtn.style.right = (containerRect.right - timenavRect.right) + 10 + 'px';
+                // Позиция снизу: расстояние от низа контейнера до верха timenav + небольшой отступ вверх
+                collapseBtn.style.bottom = (containerRect.bottom - timenavRect.top - 1) + 'px';
+              }
+              // Используем setTimeout чтобы убедиться, что layout завершен
+              setTimeout(positionButton, 0);
+              const resizeHandler = () => {
+                if (timenav && collapseBtn.parentElement) {
+                  positionButton();
+                }
+              };
+              window.addEventListener('resize', resizeHandler);
+              // Также обновляем позицию при изменении размера viewport
+              if (window.visualViewport) {
+                window.visualViewport.addEventListener('resize', resizeHandler);
+              }
+            }
+            if (currentSlide) {
+              window.timeline.goToId(currentSlide);
+            }
+          });
+        }
+
+        // Меняем текст кнопки
+        event.target.textContent = isCollapsed ? 'Collapse' : 'Expand';
+      }
+    });
   </script>
 </body>
 

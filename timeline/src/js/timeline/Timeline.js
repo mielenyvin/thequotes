@@ -22,7 +22,7 @@ if (document) {
 }
 
 function make_keydown_handler(timeline) {
-    return function(event) {
+    return function (event) {
         if (timeline.config) {
             var keyName = event.key;
             var currentSlide = timeline._getSlideIndex(self.current_id);
@@ -153,7 +153,7 @@ class Timeline {
         this.message = new Message(this._el.container, { message_class: "tl-message-full" });
 
         // Merge Options
-        if (typeof(options.default_bg_color) == "string") {
+        if (typeof (options.default_bg_color) == "string") {
             var parsed = hexToRgb(options.default_bg_color); // will clear it out if its invalid
             if (parsed) {
                 options.default_bg_color = parsed;
@@ -181,7 +181,7 @@ class Timeline {
 
 
         document.addEventListener("keydown", make_keydown_handler(this));
-        window.addEventListener("resize", function(e) {
+        window.addEventListener("resize", function (e) {
             this.updateDisplay();
         }.bind(this));
 
@@ -211,8 +211,8 @@ class Timeline {
         let theme_css_url = null;
 
         if (this.options.theme && (
-                this.options.theme.indexOf('http') == 0 ||
-                this.options.theme.match(/\.css$/))) {
+            this.options.theme.indexOf('http') == 0 ||
+            this.options.theme.match(/\.css$/))) {
             theme_css_url = this.options.theme
         } else if (this.options.theme) {
             let fragment = '../css/themes/timeline.theme.' + this.options.theme.toLowerCase() + '.css'
@@ -255,7 +255,7 @@ class Timeline {
     _initData(data) {
         if (typeof data == 'string') {
             makeConfig(data, {
-                callback: function(config) {
+                callback: function (config) {
                     this.setConfig(config);
                 }.bind(this),
                 sheets_proxy: this.options.sheets_proxy
@@ -292,17 +292,17 @@ class Timeline {
      * @param {string} msg 
      */
     showMessage(msg) {
-            if (this.message) {
-                this.message.updateMessage(msg);
-            } else {
-                trace("No message display available.")
-                trace(msg);
-            }
+        if (this.message) {
+            this.message.updateMessage(msg);
+        } else {
+            trace("No message display available.")
+            trace(msg);
         }
-        /**
-         * Not ideal, but if users don't specify the script path, we try to figure it out.
-         * The script path is needed to load other languages
-         */
+    }
+    /**
+     * Not ideal, but if users don't specify the script path, we try to figure it out.
+     * The script path is needed to load other languages
+     */
     determineScriptPath() {
         let src = null;
         if (script_src_url) { // did we get it when this loaded?
@@ -692,9 +692,9 @@ class Timeline {
             var opt = INTEGER_PROPERTIES[i];
             var value = this.options[opt];
             let valid = true;
-            if (typeof(value) == 'number') {
+            if (typeof (value) == 'number') {
                 valid = (value == parseInt(value))
-            } else if (typeof(value) == "string") {
+            } else if (typeof (value) == "string") {
                 valid = (value.match(/^\s*(\-?\d+)?\s*$/));
             }
             if (!valid) {
@@ -752,31 +752,106 @@ class Timeline {
                 this.goTo(this.options.start_at_slide);
             }
             if (this.options.hash_bookmark) {
-                if (window.location.hash != "") {
-                    this.goToId(window.location.hash.replace("#event-", ""));
+                const loc = window.location;
+
+                if (loc.hash && loc.hash.indexOf('#event-') === 0) {
+                    // Legacy hash-based URLs like #event-antonio-vivaldi
+                    this.goToId(loc.hash.replace('#event-', ''));
                 } else {
-                    this._updateHashBookmark(this.current_id);
+                    // Try to get the slide id from the last path segment, e.g. /knightlab/antonio-vivaldi
+                    let path = loc.pathname.replace(/index\.html$/, '');
+                    let segments = path.split('/').filter(Boolean);
+                    let lastSegment = segments[segments.length - 1];
+
+                    let matchedId = null;
+                    if (lastSegment) {
+                        // Check if lastSegment matches title id
+                        if (this.config.title && this.config.title.unique_id === lastSegment) {
+                            matchedId = lastSegment;
+                        } else {
+                            // Or one of the event ids
+                            for (let i = 0; i < this.config.events.length; i++) {
+                                if (this.config.events[i].unique_id === lastSegment) {
+                                    matchedId = lastSegment;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if (matchedId) {
+                        this.goToId(matchedId);
+                    } else {
+                        // Fallback: update URL based on the current slide
+                        this._updateHashBookmark(this.current_id);
+                    }
                 }
+
+                // Keep hashchange listener for backward compatibility with old #event-... links
                 let the_timeline = this;
-                window.addEventListener('hashchange', function() {
+                window.addEventListener('hashchange', function () {
                     if (window.location.hash.indexOf('#event-') == 0) {
                         the_timeline.goToId(window.location.hash.replace("#event-", ""));
                     }
                 }, false);
             }
-
         }
     }
 
     // Update hashbookmark in the url bar
     _updateHashBookmark(id) {
         if (id) { // TODO: validate the id...
-            var hash = "#" + "event-" + id.toString();
-            window.history.replaceState(null, "Browsing TimelineJS", hash);
-            this.fire("hash_updated", { unique_id: this.current_id, hashbookmark: "#" + "event-" + id.toString() }, this);
+            const loc = window.location;
+
+            // Helper: get base path without any slide slug and without index.html
+            const getBasePath = () => {
+                let path = loc.pathname.replace(/index\.html$/, "");
+                let segments = path.split("/").filter(Boolean);
+
+                if (segments.length > 0) {
+                    const lastSegment = segments[segments.length - 1];
+                    let isSlideId = false;
+
+                    // Check title id
+                    if (this.config && this.config.title && this.config.title.unique_id === lastSegment) {
+                        isSlideId = true;
+                    } else if (this.config && this.config.events && this.config.events.length) {
+                        // Or one of the event ids
+                        for (let i = 0; i < this.config.events.length; i++) {
+                            if (this.config.events[i].unique_id === lastSegment) {
+                                isSlideId = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (isSlideId) {
+                        segments.pop();
+                    }
+                }
+
+                let basePath = "/" + segments.join("/");
+                if (!basePath.endsWith("/")) {
+                    basePath += "/";
+                }
+                return basePath;
+            };
+
+            const basePath = getBasePath();
+
+            // Если это титульный слайд - делаем красивый URL без якоря и без slug'а
+            if (this.config && this.config.title && this.config.title.unique_id === id) {
+                const newUrl = basePath; // например, /knightlab/
+                window.history.replaceState(null, "Browsing TimelineJS", newUrl);
+                this.fire("hash_updated", { unique_id: this.current_id, hashbookmark: newUrl }, this);
+            } else {
+                // Для всех остальных слайдов делаем URL вида /knightlab/antonio-vivaldi
+                const newUrl = basePath + id.toString();
+                window.history.replaceState(null, "Browsing TimelineJS", newUrl);
+                this.fire("hash_updated", { unique_id: this.current_id, hashbookmark: newUrl }, this);
+            }
         }
     }
-
 
     /*
         PUBLIC API
@@ -804,6 +879,11 @@ class Timeline {
             this._timenav.goToId(this.current_id);
             this._storyslider.goToId(this.current_id, false, true);
             this.fire("change", { unique_id: this.current_id }, this);
+
+            // Ensure hash bookmark is updated when navigation happens via goTo/goToStart/goToEnd
+            if (this.options.hash_bookmark && this.current_id) {
+                this._updateHashBookmark(this.current_id);
+            }
         }
     }
 
@@ -954,7 +1034,7 @@ class Timeline {
     _initGoogleAnalytics(measurement_id) {
         loadJS(`https://www.googletagmanager.com/gtag/js?id=${measurement_id}`)
         window.dataLayer = window.dataLayer || [];
-        window.gtag = function(){dataLayer.push(arguments);}
+        window.gtag = function () { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', measurement_id);
     }
@@ -966,7 +1046,7 @@ class Timeline {
         var events = this.options.track_events;
         for (let i = 0; i < events.length; i++) {
             var event_ = events[i];
-            this.addEventListener(event_, function(e) {
+            this.addEventListener(event_, function (e) {
                 gtag('event', e.type);
             });
         }
@@ -983,7 +1063,7 @@ async function exportJSON(url, proxy_url) {
         proxy_url = 'https://sheets-proxy.knightlab.com/proxy/'
     }
 
-    let json = await jsonFromGoogleURL(url, {sheets_proxy: proxy_url})
+    let json = await jsonFromGoogleURL(url, { sheets_proxy: proxy_url })
     return json
 }
 

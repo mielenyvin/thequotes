@@ -95,6 +95,119 @@
     const timelineJson = "../timeline/timeline.json";
     const embed = document.getElementById("timeline-embed");
 
+    // Per-slide timenav height mapping (by event index in timeline.config.events)
+    // Index 0 = first event slide (second visual screen, after the title)
+    const TIMENAV_HEIGHT_BY_INDEX = {
+      0: 27,  // first event slide
+      1: 27, // 4 lines
+      2: 27, 
+      3: 27, // Handel
+      4: 27, // 5 lines Haydn
+      5: 37, // Mozart
+      6: 37, // 6 lines Beethoven
+      7: 50, // 7 lines Paganini
+      8: 50,
+      9: 50,
+      10: 50,
+      11: 50,
+      12: 50,
+      13: 50,
+      14: 50,
+      15: 50,
+      16: 50,
+      17: 50,
+      18: 50,
+      19: 50,
+      20: 50,
+      21: 50,
+      22: 50,
+      23: 50,
+      24: 50,
+      25: 50,
+      26: 50,
+      27: 50,
+      28: 50,
+      29: 50,
+      30: 50,
+      31: 50,
+      32: 50, // Rachmaninoff
+      33: 37,
+      34: 20,
+      35: 20
+      // add more indexes here if needed
+    };
+    const DEFAULT_TIMENAV_HEIGHT = 50;
+    // Base timenav height for title and non-overridden slides
+    // 75 = initial, later can be 26/50 when collapsed/expanded
+    let baseTimenavHeight = 75;
+
+    // Apply timenav/story heights based on current slide
+    function applyTimenavHeight(uniqueId, source) {
+      console.log('[timenav] applyTimenavHeight called from:', source, 'with uniqueId =', uniqueId);
+
+      if (!window.timeline || !window.timeline.config || !Array.isArray(window.timeline.config.events)) {
+        console.warn('[timenav] no timeline or events, aborting');
+        return;
+      }
+
+      // Base percentage is taken from our global baseTimenavHeight
+      // 75 for initial title layout, or 26/50 after collapse/expand.
+      let basePercent = typeof baseTimenavHeight === 'number' ? baseTimenavHeight : DEFAULT_TIMENAV_HEIGHT;
+      console.log('[timenav] basePercent from baseTimenavHeight =', basePercent);
+
+      const events = window.timeline.config.events;
+
+      // Normalize ID (strip leading '#' if it comes from URL hash)
+      let normalizedId = uniqueId;
+      if (!normalizedId && window.timeline.current_id) {
+        normalizedId = window.timeline.current_id;
+      }
+      if (typeof normalizedId === 'string' && normalizedId.charAt(0) === '#') {
+        normalizedId = normalizedId.substring(1);
+      }
+
+      const index = events.findIndex(ev => ev.unique_id === normalizedId);
+      console.log('[timenav] normalizedId =', normalizedId, 'index in events =', index);
+
+      let percent;
+
+      if (index < 0) {
+        // Title slide or unknown ID: always use the base timenav height
+        percent = basePercent;
+        console.log('[timenav] using basePercent for title/unknown slide:', percent);
+      } else if (index in TIMENAV_HEIGHT_BY_INDEX) {
+        // Event slides with explicit override
+        percent = TIMENAV_HEIGHT_BY_INDEX[index];
+        console.log('[timenav] using per-index override for event index', index, 'percent =', percent);
+      } else {
+        // Other event slides: fall back to basePercent
+        percent = basePercent;
+        console.log('[timenav] using basePercent for event index', index, 'percent =', percent);
+      }
+
+      // Adjust zoom level: default 4, but for event indices 9 and 10 use 5
+      let zoomLevel = 4;
+      if (index === 40 ) { // out of bounds check
+        zoomLevel = 5;
+      }
+      if (typeof window.timeline.setZoom === 'function') {
+        console.log('[timenav] applying zoom level', zoomLevel, 'for event index', index);
+        window.timeline.setZoom(zoomLevel);
+      }
+
+      // Store the chosen percentage back into timeline options
+      if (window.timeline.options) {
+        window.timeline.options.timenav_height_percentage = percent;
+      }
+
+      console.log('[timenav] applying timenav_height_percentage =', percent, 'and calling updateDisplay()');
+
+      // Ask TimelineJS to recalculate layout based on the new percentage
+      if (typeof window.timeline.updateDisplay === 'function') {
+        window.timeline.updateDisplay();
+      }
+    }
+
     function resizeToViewport() {
       const viewport = window.visualViewport;
       const height = viewport ? viewport.height : window.innerHeight;
@@ -107,14 +220,14 @@
     }
 
     window.timeline = new TL.Timeline("timeline-embed", timelineJson, {
-      timenav_height_percentage: 75,
+      timenav_height_percentage: baseTimenavHeight,
       timenav_position: "bottom",
       hash_bookmark: true,
       marker_padding: 0,
       marker_height_min: 0,
       hash_bookmark: true,
       scale_factor: 1,      // растягиваем навигацию по времени, чтобы события разъехались
-      initial_zoom: 5       // соответствующий zoom-уровень из zoom_sequence
+      initial_zoom: 4       // соответствующий zoom-уровень из zoom_sequence
     });
 
     // Смещаем навигацию ближе к левой части, чтобы маркеры не висели точно по центру
@@ -141,6 +254,15 @@
     if (window.timeline && window.timeline.on) {
       window.timeline.on("ready", () => {
         biasTimeNav(window.timeline._timenav);
+        console.log('[timenav] timeline ready, current_id =', window.timeline.current_id, 'location.hash =', window.location.hash);
+        const initialId = window.timeline.current_id || window.location.hash || '';
+        applyTimenavHeight(initialId, 'ready-initial');
+
+        // Update timenav height on every slide change
+        window.timeline.on('change', (e) => {
+          console.log('[timenav] change event, unique_id =', e.unique_id);
+          applyTimenavHeight(e.unique_id, 'change');
+        });
         // Добавляем кнопку Collapse над timenav
         const timenav = document.querySelector('.tl-timenav');
         if (timenav && !document.getElementById('collapse_timeline')) {
@@ -205,6 +327,7 @@
     document.addEventListener('click', function (event) {
       if (event.target && event.target.id === 'collapse_timeline') {
         isCollapsed = !isCollapsed;
+        baseTimenavHeight = isCollapsed ? 26 : 50;
 
         // Сохраняем текущий слайд
         const currentSlide = window.timeline.current_id;
@@ -215,19 +338,28 @@
 
         // Создаём новый timeline с новой высотой
         window.timeline = new TL.Timeline("timeline-embed", timelineJson, {
-          timenav_height_percentage: isCollapsed ? 26 : 50,
+          timenav_height_percentage: baseTimenavHeight,
           timenav_position: "bottom",
           hash_bookmark: true,
           marker_padding: 0,
           marker_height_min: 0,
           scale_factor: 1,
-          initial_zoom: 5
+          initial_zoom: 4
         });
 
         // После загрузки возвращаемся на тот же слайд
         if (window.timeline && window.timeline.on) {
           window.timeline.on("ready", () => {
             biasTimeNav(window.timeline._timenav);
+            console.log('[timenav] rebuilt timeline ready, current_id =', window.timeline.current_id, 'location.hash =', window.location.hash, 'currentSlide =', currentSlide);
+            const initialIdRebuilt = currentSlide || window.timeline.current_id || window.location.hash || '';
+            applyTimenavHeight(initialIdRebuilt, 'ready-rebuild');
+
+            // Update timenav height on every slide change for the rebuilt timeline
+            window.timeline.on('change', (e) => {
+              console.log('[timenav] change event (rebuilt), unique_id =', e.unique_id);
+              applyTimenavHeight(e.unique_id, 'change-rebuild');
+            });
             // Добавляем кнопку Collapse над timenav
             const timenav = document.querySelector('.tl-timenav');
             if (timenav && !document.getElementById('collapse_timeline')) {

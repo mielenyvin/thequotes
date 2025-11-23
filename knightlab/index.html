@@ -78,6 +78,14 @@
     #collapse_timeline:hover {
       background-color: rgba(0, 0, 0, 0.9);
     }
+
+    /* Невидимый барьер для блокировки iframe на мобильных */
+    #collapse_timeline_barrier {
+      position: absolute;
+      z-index: 999;
+      background: transparent;
+      pointer-events: auto;
+    }
   </style>
 </head>
 
@@ -139,17 +147,35 @@
           const collapseBtn = document.createElement('button');
           collapseBtn.id = 'collapse_timeline';
           collapseBtn.textContent = 'Expand';
-          // Вставляем кнопку в контейнер перед timenav
+          
+          // Создаем невидимый барьер для блокировки iframe
+          const barrier = document.createElement('div');
+          barrier.id = 'collapse_timeline_barrier';
+          
+          // Вставляем барьер и кнопку в контейнер перед timenav
+          timenav.parentElement.insertBefore(barrier, timenav);
           timenav.parentElement.insertBefore(collapseBtn, timenav);
-          // Позиционируем кнопку справа, чуть выше правого верхнего угла timenav
+          
+          // Позиционируем кнопку и барьер
           function positionButton() {
             const timenavRect = timenav.getBoundingClientRect();
             const containerRect = embed.getBoundingClientRect();
+            const btnRect = collapseBtn.getBoundingClientRect();
+            
             // Позиция справа: расстояние от правого края контейнера до правого края timenav
-            collapseBtn.style.right = (containerRect.right - timenavRect.right) + 10 + 'px';
-            // Позиция снизу: расстояние от низа контейнера до верха timenav + небольшой отступ вверх
-            collapseBtn.style.bottom = (containerRect.bottom - timenavRect.top - 1) + 'px';
+            const rightPos = (containerRect.right - timenavRect.right) + 10;
+            const bottomPos = (containerRect.bottom - timenavRect.top - 1);
+            
+            collapseBtn.style.right = rightPos + 'px';
+            collapseBtn.style.bottom = bottomPos + 'px';
+            
+            // Барьер должен быть немного больше кнопки и находиться под ней
+            barrier.style.right = (rightPos - 5) + 'px';
+            barrier.style.bottom = (bottomPos - 5) + 'px';
+            barrier.style.width = (btnRect.width + 10) + 'px';
+            barrier.style.height = (btnRect.height + 10) + 'px';
           }
+          
           // Используем setTimeout чтобы убедиться, что layout завершен
           setTimeout(positionButton, 0);
           const resizeHandler = () => {
@@ -208,17 +234,35 @@
               const collapseBtn = document.createElement('button');
               collapseBtn.id = 'collapse_timeline';
               collapseBtn.textContent = isCollapsed ? 'Collapse' : 'Expand';
-              // Вставляем кнопку в контейнер перед timenav
+              
+              // Создаем невидимый барьер для блокировки iframe
+              const barrier = document.createElement('div');
+              barrier.id = 'collapse_timeline_barrier';
+              
+              // Вставляем барьер и кнопку в контейнер перед timenav
+              timenav.parentElement.insertBefore(barrier, timenav);
               timenav.parentElement.insertBefore(collapseBtn, timenav);
-              // Позиционируем кнопку справа, чуть выше правого верхнего угла timenav
+              
+              // Позиционируем кнопку и барьер
               function positionButton() {
                 const timenavRect = timenav.getBoundingClientRect();
                 const containerRect = embed.getBoundingClientRect();
+                
                 // Позиция справа: расстояние от правого края контейнера до правого края timenav
-                collapseBtn.style.right = (containerRect.right - timenavRect.right) + 10 + 'px';
-                // Позиция снизу: расстояние от низа контейнера до верха timenav + небольшой отступ вверх
-                collapseBtn.style.bottom = (containerRect.bottom - timenavRect.top - 1) + 'px';
+                const rightPos = (containerRect.right - timenavRect.right) + 10;
+                const bottomPos = (containerRect.bottom - timenavRect.top - 1);
+                
+                collapseBtn.style.right = rightPos + 'px';
+                collapseBtn.style.bottom = bottomPos + 'px';
+                
+                // Барьер должен быть немного больше кнопки и находиться под ней
+                // Используем фиксированные размеры (примерно 80px x 40px для кнопки + отступы)
+                barrier.style.right = (rightPos - 10) + 'px';
+                barrier.style.bottom = (bottomPos - 10) + 'px';
+                barrier.style.width = '100px';
+                barrier.style.height = '50px';
               }
+              
               // Используем setTimeout чтобы убедиться, что layout завершен
               setTimeout(positionButton, 0);
               const resizeHandler = () => {

@@ -167,6 +167,66 @@ export class MenuBar {
         DOMEvent.addListener(this._el.button_backtostart, 'click', this._onButtonBackToStart, this);
         DOMEvent.addListener(this._el.button_zoomin, 'click', this._onButtonZoomIn, this);
         DOMEvent.addListener(this._el.button_zoomout, 'click', this._onButtonZoomOut, this);
+
+        // Show the "home" button only when we are not on the title slide.
+        if (typeof window !== 'undefined') {
+            const updateHomeVisibility = () => {
+                const btn = this._el.button_backtostart;
+                if (!btn) return;
+
+                let isOnTitle = true;
+
+                try {
+                    const tl = window.timeline;
+
+                    if (tl && tl.config && Array.isArray(tl.config.events)) {
+                        const currentId = tl.current_id;
+                        const events = tl.config.events;
+
+                        const idx = events.findIndex(ev => ev.unique_id === currentId);
+
+                        // If current_id matches one of the events, we are NOT on the title slide
+                        if (idx >= 0) {
+                            isOnTitle = false;
+                        } else {
+                            isOnTitle = true;
+                        }
+                    } else {
+                        // Fallback: use URL hash heuristic
+                        const hash = window.location.hash || '';
+                        isOnTitle = !hash || !hash.includes('event-');
+                    }
+                } catch (e) {
+                    // In case of any error, be safe and treat as title
+                    isOnTitle = true;
+                }
+
+                if (isOnTitle) {
+                    btn.style.display = 'none';
+                } else {
+                    btn.style.display = '';
+                }
+            };
+
+            // Initial visibility (slightly delayed to allow timeline to initialize)
+            setTimeout(updateHomeVisibility, 0);
+
+            // If a global timeline instance exists and supports events, update on slide change
+            try {
+                const tl = window.timeline;
+                if (tl && typeof tl.on === 'function') {
+                    tl.on('change', () => {
+                        updateHomeVisibility();
+                    });
+                } else {
+                    // Fallback: update when the URL hash changes
+                    window.addEventListener('hashchange', updateHomeVisibility);
+                }
+            } catch (e) {
+                // As a last resort, just use hashchange
+                window.addEventListener('hashchange', updateHomeVisibility);
+            }
+        }
     }
 
     // Update Display

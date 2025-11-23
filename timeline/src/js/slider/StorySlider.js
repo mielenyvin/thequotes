@@ -173,13 +173,13 @@ export class StorySlider {
             nav_pos = 8;
         } else {
             // Default (desktop) layout: center vertically
-            if (this.options.layout === "portrait") {
-                // Mobile / skinny layout: keep nav buttons near the top
-                nav_pos = 10;
-            } else {
-                // Default (desktop) layout: center vertically
-                nav_pos = (this.options.height / 2);
-            }
+                    if (this.options.layout === "portrait") {
+            // Mobile / skinny layout: keep nav buttons near the top
+            nav_pos = 10;
+        } else {
+            // Default (desktop) layout: center vertically
+            nav_pos = (this.options.height / 2);
+        }
         }
         this._nav.next.setPosition({ top: nav_pos });
         this._nav.previous.setPosition({ top: nav_pos });
@@ -274,7 +274,7 @@ export class StorySlider {
             }
 
             // Preload Slides
-            this.preloadTimer = setTimeout(function () {
+            this.preloadTimer = setTimeout(function() {
                 self.preloadSlides(n);
             }, this.options.duration);
         }
@@ -332,40 +332,40 @@ export class StorySlider {
 
 
     changeBackground(bg) {
-        var bg_color = { r: 256, g: 256, b: 256 },
-            bg_color_rgb;
+            var bg_color = { r: 256, g: 256, b: 256 },
+                bg_color_rgb;
 
-        if (bg.color_value && bg.color_value != "") {
-            bg_color = hexToRgb(bg.color_value);
-            if (!bg_color) {
-                trace("Invalid color value " + bg.color_value);
+            if (bg.color_value && bg.color_value != "") {
+                bg_color = hexToRgb(bg.color_value);
+                if (!bg_color) {
+                    trace("Invalid color value " + bg.color_value);
+                    bg_color = this.options.default_bg_color;
+                }
+            } else {
                 bg_color = this.options.default_bg_color;
+                bg.color_value = "rgb(" + bg_color.r + " , " + bg_color.g + ", " + bg_color.b + ")";
             }
-        } else {
-            bg_color = this.options.default_bg_color;
-            bg.color_value = "rgb(" + bg_color.r + " , " + bg_color.g + ", " + bg_color.b + ")";
+
+            bg_color_rgb = bg_color.r + "," + bg_color.g + "," + bg_color.b;
+            this._el.background.style.backgroundImage = "none";
+
+
+            if (bg.color_value) {
+                this._el.background.style.backgroundColor = bg.color_value;
+            } else {
+                this._el.background.style.backgroundColor = "transparent";
+            }
+
+            if (bg_color.r < 255 || bg_color.g < 255 || bg_color.b < 255 || bg.image) {
+                this._nav.next.setColor(true);
+                this._nav.previous.setColor(true);
+            } else {
+                this._nav.next.setColor(false);
+                this._nav.previous.setColor(false);
+            }
         }
-
-        bg_color_rgb = bg_color.r + "," + bg_color.g + "," + bg_color.b;
-        this._el.background.style.backgroundImage = "none";
-
-
-        if (bg.color_value) {
-            this._el.background.style.backgroundColor = bg.color_value;
-        } else {
-            this._el.background.style.backgroundColor = "transparent";
-        }
-
-        if (bg_color.r < 255 || bg_color.g < 255 || bg_color.b < 255 || bg.image) {
-            this._nav.next.setColor(true);
-            this._nav.previous.setColor(true);
-        } else {
-            this._nav.next.setColor(false);
-            this._nav.previous.setColor(false);
-        }
-    }
-    /*	Private Methods
-    ================================================== */
+        /*	Private Methods
+        ================================================== */
 
     // Update Display
 

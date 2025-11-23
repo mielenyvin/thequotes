@@ -955,6 +955,8 @@ h2.tl-headline {
 	================================================== */
   /* Markers with End Dates and Active and Hover
 	================================================== */
+  /* Marker background shades (35-step gray cycle)
+	================================================== */
 }
 .tl-timemarker.tl-timemarker-fast {
   -webkit-transition: top 500ms cubic-bezier(0.77, 0, 0.175, 1), height 500ms cubic-bezier(0.77, 0, 0.175, 1), width 500ms cubic-bezier(0.77, 0, 0.175, 1);
@@ -1050,7 +1052,7 @@ h2.tl-headline {
 }
 .tl-timemarker .tl-timemarker-content-container {
   position: absolute;
-  background-color: #e5e5e5;
+  background-color: #ffffff;
   border: 0;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
@@ -1265,7 +1267,7 @@ h2.tl-headline {
   outline: none;
 }
 .tl-timemarker.tl-timemarker-active .tl-timemarker-timespan {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0);
   z-index: 8;
 }
 .tl-timemarker.tl-timemarker-active .tl-timemarker-timespan .tl-timemarker-timespan-content {
@@ -1354,6 +1356,7 @@ h2.tl-headline {
 .tl-timemarker.tl-timemarker-with-end.tl-timemarker-active .tl-timemarker-line-left,
 .tl-timemarker.tl-timemarker-with-end.tl-timemarker-active .tl-timemarker-line-right {
   border-width: 1px;
+  opacity: 50%;
 }
 .tl-timemarker.tl-timemarker-with-end.tl-timemarker-active .tl-timemarker-line-left:after,
 .tl-timemarker.tl-timemarker-with-end.tl-timemarker-active .tl-timemarker-line-right:after {
@@ -1364,6 +1367,111 @@ h2.tl-headline {
 }
 .tl-timemarker.tl-timemarker-with-end.tl-timemarker-active:hover .tl-timemarker-timespan:after {
   background-color: rgba(51, 51, 51, 0.5);
+}
+.tl-timemarker:nth-child(35n+1) .tl-timemarker-content-container {
+  background-color: #ffffff;
+}
+.tl-timemarker:nth-child(35n+2) .tl-timemarker-content-container {
+  background-color: #f7f7f7;
+}
+.tl-timemarker:nth-child(35n+3) .tl-timemarker-content-container {
+  background-color: #ececec;
+}
+.tl-timemarker:nth-child(35n+4) .tl-timemarker-content-container {
+  background-color: #dcdcdc;
+}
+.tl-timemarker:nth-child(35n+5) .tl-timemarker-content-container {
+  background-color: #f2f2f2;
+}
+.tl-timemarker:nth-child(35n+6) .tl-timemarker-content-container {
+  background-color: #e6e6e6;
+}
+.tl-timemarker:nth-child(35n+7) .tl-timemarker-content-container {
+  background-color: #fafafa;
+}
+.tl-timemarker:nth-child(35n+8) .tl-timemarker-content-container {
+  background-color: #dfdfdf;
+}
+.tl-timemarker:nth-child(35n+9) .tl-timemarker-content-container {
+  background-color: #e3e3e3;
+}
+.tl-timemarker:nth-child(35n+10) .tl-timemarker-content-container {
+  background-color: #bfbfbf;
+}
+.tl-timemarker:nth-child(35n+11) .tl-timemarker-content-container {
+  background-color: #ededed;
+}
+.tl-timemarker:nth-child(35n+12) .tl-timemarker-content-container {
+  background-color: #d9d9d9;
+}
+.tl-timemarker:nth-child(35n+13) .tl-timemarker-content-container {
+  background-color: #c8c8c8;
+}
+.tl-timemarker:nth-child(35n+14) .tl-timemarker-content-container {
+  background-color: #f0f0f0;
+}
+.tl-timemarker:nth-child(35n+15) .tl-timemarker-content-container {
+  background-color: #cccccc;
+}
+.tl-timemarker:nth-child(35n+16) .tl-timemarker-content-container {
+  background-color: #ebebeb;
+}
+.tl-timemarker:nth-child(35n+17) .tl-timemarker-content-container {
+  background-color: #d2d2d2;
+}
+.tl-timemarker:nth-child(35n+18) .tl-timemarker-content-container {
+  background-color: #bebebe;
+}
+.tl-timemarker:nth-child(35n+19) .tl-timemarker-content-container {
+  background-color: #e8e8e8;
+}
+.tl-timemarker:nth-child(35n+20) .tl-timemarker-content-container {
+  background-color: #c4c4c4;
+}
+.tl-timemarker:nth-child(35n+21) .tl-timemarker-content-container {
+  background-color: #dbdbdb;
+}
+.tl-timemarker:nth-child(35n+22) .tl-timemarker-content-container {
+  background-color: #9f9f9f;
+}
+.tl-timemarker:nth-child(35n+23) .tl-timemarker-content-container {
+  background-color: #dadada;
+}
+.tl-timemarker:nth-child(35n+24) .tl-timemarker-content-container {
+  background-color: #b3b3b3;
+}
+.tl-timemarker:nth-child(35n+25) .tl-timemarker-content-container {
+  background-color: #e0e0e0;
+}
+.tl-timemarker:nth-child(35n+26) .tl-timemarker-content-container {
+  background-color: #a9a9a9;
+}
+.tl-timemarker:nth-child(35n+27) .tl-timemarker-content-container {
+  background-color: #cfcfcf;
+}
+.tl-timemarker:nth-child(35n+28) .tl-timemarker-content-container {
+  background-color: #969696;
+}
+.tl-timemarker:nth-child(35n+29) .tl-timemarker-content-container {
+  background-color: #d5d5d5;
+}
+.tl-timemarker:nth-child(35n+30) .tl-timemarker-content-container {
+  background-color: #bbbbbb;
+}
+.tl-timemarker:nth-child(35n+31) .tl-timemarker-content-container {
+  background-color: #a3a3a3;
+}
+.tl-timemarker:nth-child(35n+32) .tl-timemarker-content-container {
+  background-color: #888888;
+}
+.tl-timemarker:nth-child(35n+33) .tl-timemarker-content-container {
+  background-color: #b0b0b0;
+}
+.tl-timemarker:nth-child(35n+34) .tl-timemarker-content-container {
+  background-color: #737373;
+}
+.tl-timemarker:nth-child(35n+35) .tl-timemarker-content-container {
+  background-color: #8c8c8c;
 }
 /* Skinny
 ================================================== */

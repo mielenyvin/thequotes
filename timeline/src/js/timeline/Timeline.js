@@ -745,49 +745,53 @@ class Timeline {
     _onLoaded() {
         if (this._loaded.storyslider && this._loaded.timenav) {
             this.fire("loaded", this.config);
-            // Go to proper slide
-            if (isTrue(this.options.start_at_end) || this.options.start_at_slide > this.config.events.length) {
-                this.goToEnd();
-            } else {
-                this.goTo(this.options.start_at_slide);
-            }
+
+            let startId = null;
+
+            // If hash_bookmark is enabled, try to determine the starting slide from the URL
             if (this.options.hash_bookmark) {
                 const loc = window.location;
 
                 if (loc.hash && loc.hash.indexOf('#event-') === 0) {
                     // Legacy hash-based URLs like #event-antonio-vivaldi
-                    this.goToId(loc.hash.replace('#event-', ''));
+                    startId = loc.hash.replace('#event-', '');
                 } else {
                     // Try to get the slide id from the last path segment, e.g. /knightlab/antonio-vivaldi
                     let path = loc.pathname.replace(/index\.html$/, '');
                     let segments = path.split('/').filter(Boolean);
                     let lastSegment = segments[segments.length - 1];
 
-                    let matchedId = null;
                     if (lastSegment) {
                         // Check if lastSegment matches title id
                         if (this.config.title && this.config.title.unique_id === lastSegment) {
-                            matchedId = lastSegment;
-                        } else {
+                            startId = lastSegment;
+                        } else if (this.config.events && this.config.events.length) {
                             // Or one of the event ids
                             for (let i = 0; i < this.config.events.length; i++) {
                                 if (this.config.events[i].unique_id === lastSegment) {
-                                    matchedId = lastSegment;
+                                    startId = lastSegment;
                                     break;
                                 }
                             }
                         }
                     }
-
-                    if (matchedId) {
-                        this.goToId(matchedId);
-                    } else {
-                        // Fallback: update URL based on the current slide
-                        this._updateHashBookmark(this.current_id);
-                    }
                 }
+            }
 
-                // Keep hashchange listener for backward compatibility with old #event-... links
+            // If we found a matching id in the URL, go there first
+            if (startId) {
+                this.goToId(startId);
+            } else {
+                // Otherwise, use the original start_at_slide/start_at_end logic
+                if (isTrue(this.options.start_at_end) || this.options.start_at_slide > this.config.events.length) {
+                    this.goToEnd();
+                } else {
+                    this.goTo(this.options.start_at_slide);
+                }
+            }
+
+            // Set up hashchange listener only (keep backward compatibility with old #event-... links)
+            if (this.options.hash_bookmark) {
                 let the_timeline = this;
                 window.addEventListener('hashchange', function () {
                     if (window.location.hash.indexOf('#event-') == 0) {

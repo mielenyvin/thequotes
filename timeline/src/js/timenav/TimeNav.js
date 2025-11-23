@@ -800,8 +800,10 @@ export class TimeNav {
         this.timeaxis = new TimeAxis(this._el.timeaxis, this.options, this.language);
 
         // Swipable
-        //this._swipable = new Swipable(this._el.container, this._el.slider, {
-        this._swipable = new Swipable(this._el.slider_background, this._el.slider, {
+        // Previously drag was only enabled when grabbing the slider background.
+        // Now we listen on the whole container so that dragging also works
+        // when the user grabs marker "plaques" (.tl-timemarker-content-container).
+        this._swipable = new Swipable(this._el.container, this._el.slider, {
             enable: { x: true, y: false },
             constraint: { top: false, bottom: false, left: (this.options.width / 2), right: false },
             snap: false

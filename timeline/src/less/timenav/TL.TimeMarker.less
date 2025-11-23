@@ -119,7 +119,7 @@
 	================================================== */
 	.tl-timemarker-content-container {
 		position:absolute;
-		background-color: @marker-color;
+		background-color: @marker-gray-01;
 		border:0;
 		border-top-left-radius:@time-marker-border-radius;
 		border-top-right-radius:@time-marker-border-radius;
@@ -349,7 +349,7 @@
 		.tl-timemarker-timespan {
 			//background-color: fadeout(@color-theme, 85%);
 			//background-color: fadeout(@color-foreground, 85%);
-			background-color: fadeout(@color-background,50%);
+			background-color: fadeout(@color-background,100%);
 			z-index: 8;
 			.tl-timemarker-timespan-content {
 				//background-color: @color-theme;
@@ -494,6 +494,7 @@
 			
 			.tl-timemarker-line-left, .tl-timemarker-line-right {
 				border-width: 1px;
+				opacity: 50%;
 				&:after {
 					//background-color:@color-theme !important;
 					background-color:@color-foreground !important;
@@ -520,6 +521,43 @@
 			}
 		}
 	}
+	/* Marker background shades (35-step gray cycle)
+	================================================== */
+	&:nth-child(35n+1)  .tl-timemarker-content-container { background-color: @marker-gray-01; }
+	&:nth-child(35n+2)  .tl-timemarker-content-container { background-color: @marker-gray-02; }
+	&:nth-child(35n+3)  .tl-timemarker-content-container { background-color: @marker-gray-03; }
+	&:nth-child(35n+4)  .tl-timemarker-content-container { background-color: @marker-gray-04; }
+	&:nth-child(35n+5)  .tl-timemarker-content-container { background-color: @marker-gray-05; }
+	&:nth-child(35n+6)  .tl-timemarker-content-container { background-color: @marker-gray-06; }
+	&:nth-child(35n+7)  .tl-timemarker-content-container { background-color: @marker-gray-07; }
+	&:nth-child(35n+8)  .tl-timemarker-content-container { background-color: @marker-gray-08; }
+	&:nth-child(35n+9)  .tl-timemarker-content-container { background-color: @marker-gray-09; }
+	&:nth-child(35n+10) .tl-timemarker-content-container { background-color: @marker-gray-10; }
+	&:nth-child(35n+11) .tl-timemarker-content-container { background-color: @marker-gray-11; }
+	&:nth-child(35n+12) .tl-timemarker-content-container { background-color: @marker-gray-12; }
+	&:nth-child(35n+13) .tl-timemarker-content-container { background-color: @marker-gray-13; }
+	&:nth-child(35n+14) .tl-timemarker-content-container { background-color: @marker-gray-14; }
+	&:nth-child(35n+15) .tl-timemarker-content-container { background-color: @marker-gray-15; }
+	&:nth-child(35n+16) .tl-timemarker-content-container { background-color: @marker-gray-16; }
+	&:nth-child(35n+17) .tl-timemarker-content-container { background-color: @marker-gray-17; }
+	&:nth-child(35n+18) .tl-timemarker-content-container { background-color: @marker-gray-18; }
+	&:nth-child(35n+19) .tl-timemarker-content-container { background-color: @marker-gray-19; }
+	&:nth-child(35n+20) .tl-timemarker-content-container { background-color: @marker-gray-20; }
+	&:nth-child(35n+21) .tl-timemarker-content-container { background-color: @marker-gray-21; }
+	&:nth-child(35n+22) .tl-timemarker-content-container { background-color: @marker-gray-22; }
+	&:nth-child(35n+23) .tl-timemarker-content-container { background-color: @marker-gray-23; }
+	&:nth-child(35n+24) .tl-timemarker-content-container { background-color: @marker-gray-24; }
+	&:nth-child(35n+25) .tl-timemarker-content-container { background-color: @marker-gray-25; }
+	&:nth-child(35n+26) .tl-timemarker-content-container { background-color: @marker-gray-26; }
+	&:nth-child(35n+27) .tl-timemarker-content-container { background-color: @marker-gray-27; }
+	&:nth-child(35n+28) .tl-timemarker-content-container { background-color: @marker-gray-28; }
+	&:nth-child(35n+29) .tl-timemarker-content-container { background-color: @marker-gray-29; }
+	&:nth-child(35n+30) .tl-timemarker-content-container { background-color: @marker-gray-30; }
+	&:nth-child(35n+31) .tl-timemarker-content-container { background-color: @marker-gray-31; }
+	&:nth-child(35n+32) .tl-timemarker-content-container { background-color: @marker-gray-32; }
+	&:nth-child(35n+33) .tl-timemarker-content-container { background-color: @marker-gray-33; }
+	&:nth-child(35n+34) .tl-timemarker-content-container { background-color: @marker-gray-34; }
+	&:nth-child(35n+35) .tl-timemarker-content-container { background-color: @marker-gray-35; }
 }
 
 /* Skinny

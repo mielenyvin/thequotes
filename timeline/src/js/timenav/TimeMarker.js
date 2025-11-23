@@ -227,7 +227,7 @@ export class TimeMarker {
 
 	setRowPosition(n, remainder) {
 		this.setPosition({ top: n });
-		this._el.timespan.style.height = remainder + "px";
+		this._el.timespan.style.height = remainder - 7 + "px";
 	}
 
     getFormattedDate() {

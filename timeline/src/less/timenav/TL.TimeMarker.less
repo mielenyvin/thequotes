@@ -35,13 +35,15 @@
 	/* Timespan
 	================================================== */
 	.tl-timemarker-timespan {
+		// display: none;
 		pointer-events: none;
 		position:absolute;
 		margin:0;
 		width:100%;
 		height:100%;
 		//overflow:hidden;
-		background-color: fadeout(@marker-color, 85%);
+		// background-color: rgba(255, 255, 255, 0.1);
+		// opacity: 0.5;
 		border-top-right-radius:@time-marker-border-radius;
 		border-top-left-radius:@time-marker-border-radius;
 		
@@ -62,7 +64,6 @@
 			
 			
 		}
-		
 	}
 	
 	/* Lines
@@ -97,11 +98,11 @@
 		height:100%;
 		.disable-selection();
 		
-		box-shadow: 1px 1px 1px @color-background;
+		//box-shadow: 1px 1px 1px @color-background;
 		
 		&:after {
 			
-			display:block;
+			display:none;
 			content:" ";
 			position:absolute;
 			left:-4px;
@@ -425,7 +426,7 @@
 			}
 			
 			&:after {
-				display:block;
+				display:none;
 				content:" ";
 				position:absolute;
 				left:0px;

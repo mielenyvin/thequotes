@@ -107,7 +107,7 @@
     }
 
     window.timeline = new TL.Timeline("timeline-embed", timelineJson, {
-      timenav_height_percentage: 26,
+      timenav_height_percentage: 75,
       timenav_position: "bottom",
       hash_bookmark: true,
       marker_padding: 0,
@@ -146,7 +146,7 @@
         if (timenav && !document.getElementById('collapse_timeline')) {
           const collapseBtn = document.createElement('button');
           collapseBtn.id = 'collapse_timeline';
-          collapseBtn.textContent = 'Expand';
+          collapseBtn.textContent = 'Collapse';
           
           // Создаем невидимый барьер для блокировки iframe
           const barrier = document.createElement('div');
@@ -215,7 +215,7 @@
 
         // Создаём новый timeline с новой высотой
         window.timeline = new TL.Timeline("timeline-embed", timelineJson, {
-          timenav_height_percentage: isCollapsed ? 50 : 26,
+          timenav_height_percentage: isCollapsed ? 26 : 50,
           timenav_position: "bottom",
           hash_bookmark: true,
           marker_padding: 0,
@@ -233,7 +233,7 @@
             if (timenav && !document.getElementById('collapse_timeline')) {
               const collapseBtn = document.createElement('button');
               collapseBtn.id = 'collapse_timeline';
-              collapseBtn.textContent = isCollapsed ? 'Collapse' : 'Expand';
+              collapseBtn.textContent = isCollapsed ? 'Expand' : 'Collapse';
               
               // Создаем невидимый барьер для блокировки iframe
               const barrier = document.createElement('div');

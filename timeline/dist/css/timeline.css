@@ -2523,8 +2523,8 @@ h2.tl-headline {
 }
 .tl-text h2.tl-headline-title,
 .tl-text h2.tl-headline {
-  margin-top: 0;
-  margin-bottom: 0;
+  margin-top: 15px;
+  margin-bottom: 15px;
   line-height: 1;
 }
 .tl-text h2.tl-headline-title,
@@ -2612,6 +2612,8 @@ h2.tl-headline {
 .tl-medium .tl-text h2.tl-headline {
   font-size: 32px;
   line-height: 36px;
+  margin-top: 10px!important;
+  margin-bottom: 10px!important;
 }
 .tl-media .tl-media-twitter {
   text-align: left;

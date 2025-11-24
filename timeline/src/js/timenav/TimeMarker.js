@@ -10,6 +10,8 @@ import { easeInSpline } from "../animation/Ease";
 import { lookupMediaType } from "../media/MediaType"
 import { I18NMixins } from "../language/I18NMixins";
 
+const TIMEMARKER_NAME_WIDTH_THRESHOLD = 160;
+
 export class TimeMarker {
 	constructor(data, options) {
 
@@ -33,6 +35,12 @@ export class TimeMarker {
 		this._state = {
 			loaded: false
 		};
+
+		this._fullHeadlineHtml = "";
+		this._fullHeadlineText = "";
+		this._shortHeadlineText = "";
+		this._nameResizeObserver = null;
+		this._boundResponsiveHeadlineHandler = null;
 
 
 		// Data
@@ -318,6 +326,8 @@ export class TimeMarker {
 			this._text.innerHTML = unlinkify(this.data.media.caption);
 		}
 
+		this._setupResponsiveHeadline();
+
         const date = this.getFormattedDate();
         this.ariaLabel = `${this._text.innerHTML}, ${date}`;
 
@@ -343,6 +353,60 @@ export class TimeMarker {
 			this.options.height = height;
 		}
 
+	}
+
+	_setupResponsiveHeadline() {
+		if (!this._text) {
+			return;
+		}
+
+		this._fullHeadlineHtml = this._text.innerHTML;
+		this._fullHeadlineText = (this._text.textContent || "").trim();
+		this._shortHeadlineText = this._getLastWord(this._fullHeadlineText);
+		this._boundResponsiveHeadlineHandler = this._updateHeadlineByWidth.bind(this);
+
+		// Initial evaluation after layout is ready.
+		// Delay to let DOM settle before reading widths.
+		if (typeof window !== "undefined") {
+			window.requestAnimationFrame(() => {
+				this._boundResponsiveHeadlineHandler();
+			});
+		} else {
+			this._boundResponsiveHeadlineHandler();
+		}
+
+		if (this._el.content_container && typeof ResizeObserver !== "undefined") {
+			this._nameResizeObserver = new ResizeObserver(this._boundResponsiveHeadlineHandler);
+			this._nameResizeObserver.observe(this._el.content_container);
+		} else if (typeof window !== "undefined") {
+			window.addEventListener("resize", this._boundResponsiveHeadlineHandler);
+		}
+	}
+
+	_updateHeadlineByWidth() {
+		if (!this._el.content_container || !this._text) {
+			return;
+		}
+		const width = this._el.content_container.offsetWidth;
+		if (!width) {
+			return;
+		}
+		const shouldUseShort = width < TIMEMARKER_NAME_WIDTH_THRESHOLD;
+		if (shouldUseShort) {
+			if (this._shortHeadlineText && this._text.textContent !== this._shortHeadlineText) {
+				this._text.textContent = this._shortHeadlineText;
+			}
+		} else if (this._text.innerHTML !== this._fullHeadlineHtml) {
+			this._text.innerHTML = this._fullHeadlineHtml;
+		}
+	}
+
+	_getLastWord(text) {
+		if (!text) {
+			return text;
+		}
+		const parts = text.trim().split(/\s+/);
+		return parts.length ? parts[parts.length - 1] : text;
 	}
 
 }

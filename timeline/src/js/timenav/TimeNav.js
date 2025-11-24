@@ -19,7 +19,7 @@ export class TimeNav {
 
     constructor(elem, timeline_config, options, language) {
         this.language = language
-            // DOM ELEMENTS
+        // DOM ELEMENTS
         this._el = {
             parent: {},
             container: {},
@@ -112,6 +112,10 @@ export class TimeNav {
         // Merge Data and Options
         mergeData(this.options, options);
 
+        // Track last manual click on a marker (for suppressing immediate auto goToId calls)
+        this._lastClickId = null;
+        this._lastClickTime = 0;
+
     }
 
     init() {
@@ -163,7 +167,12 @@ export class TimeNav {
         this._el.slider.style.width = this.timescale.getPixelWidth() + this.options.width + "px";
 
         // Update Swipable constraint
-        this._swipable.updateConstraint({ top: false, bottom: false, left: (this.options.width / 2), right: -(this.timescale.getPixelWidth() - (this.options.width / 2)) });
+        this._swipable.updateConstraint({
+            top: false,
+            bottom: false,
+            left: this._getLeftConstraint(),
+            right: this._getRightConstraint()
+        });
 
         if (reposition_markers) {
             this._drawTimeline()
@@ -219,7 +228,7 @@ export class TimeNav {
 
     setZoom(level) {
         var zoom_factor = this.options.zoom_sequence[level];
-        if (typeof(zoom_factor) == 'number') {
+        if (typeof (zoom_factor) == 'number') {
             this.setZoomFactor(zoom_factor);
         } else {
             console.warn("Invalid zoom level. Please use an index number between 0 and " + (this.options.zoom_sequence.length - 1));
@@ -467,11 +476,20 @@ export class TimeNav {
 
     /*	Navigation
     ================================================== */
-    goTo(n, fast, css_animation) {
+    goTo(n, fast, css_animation, trigger = 'goTo') {
         var self = this,
             _ease = this.options.ease,
             _duration = this.options.duration,
             _n = (n < 0) ? 0 : n;
+
+        console.log('TimeNav: goTo called', {
+            n,
+            resolvedIndex: _n,
+            fast,
+            css_animation,
+            trigger,
+            markersLength: this._markers.length
+        });
 
         // Set Marker active state
         this._resetMarkersActive();
@@ -479,7 +497,7 @@ export class TimeNav {
             this._markers[n].setActive(true);
         }
 
-        this.animateMovement(_n, fast, css_animation, _duration, _ease);
+        this.animateMovement(_n, fast, css_animation, _duration, _ease, trigger);
 
         if (n >= 0 && n < this._markers.length) {
             this.current_id = this.current_focused_id = this._markers[n].data.unique_id;
@@ -490,8 +508,51 @@ export class TimeNav {
         this._setLabelWithCurrentMarker();
     }
 
-    goToId(id, fast, css_animation) {
-        this.goTo(this._findMarkerIndex(id), fast, css_animation);
+    goToId(id, fast, css_animation, trigger = 'goToId') {
+        // Быстрый вызов goToId с fast === true и css_animation === undefined
+        // характерен для автоперехода из updateDisplay().
+        // Эти автопереходы после клика по маркеру часто вызывают "рывки" таймлайна,
+        // поэтому мы их подавляем и оставляем только "основные" вызовы.
+        if (trigger === 'goToId' && fast === true && typeof css_animation === 'undefined') {
+            console.log('TimeNav: goToId auto-call (likely from updateDisplay) skipped', {
+                id,
+                fast,
+                css_animation,
+                trigger
+            });
+            return;
+        }
+
+        const now = (typeof performance !== 'undefined' && performance.now)
+            ? performance.now()
+            : Date.now();
+
+        // Дополнительно подавляем автозапуски goToId для того же маркера,
+        // которые происходят почти сразу после ручного клика по нему.
+        // Они как раз дают вторую "фазу" движения и визуальные рывки.
+        if (
+            trigger === 'goToId' &&
+            this._lastClickId &&
+            id === this._lastClickId &&
+            (now - this._lastClickTime) < 300
+        ) {
+            console.log('TimeNav: goToId auto-call skipped due to recent markerClick', {
+                id,
+                fast,
+                css_animation,
+                trigger,
+                sinceLastClickMs: now - this._lastClickTime
+            });
+            return;
+        }
+
+        console.log('TimeNav: goToId called', {
+            id,
+            fast,
+            css_animation,
+            trigger
+        });
+        this.goTo(this._findMarkerIndex(id), fast, css_animation, trigger);
     }
 
     focusOn(n, fast, css_animation) {
@@ -499,7 +560,7 @@ export class TimeNav {
             _duration = this.options.duration,
             _n = (n < 0) ? 0 : n;
 
-        this.animateMovement(_n, fast, css_animation, _duration, _ease);
+        this.animateMovement(_n, fast, css_animation, _duration, _ease, 'focusOn');
 
         this._resetMarkersBlurListeners();
         if (n >= 0 && n < this._markers.length) {
@@ -527,27 +588,84 @@ export class TimeNav {
         }
     }
 
-    animateMovement(n, fast, css_animation, duration, ease) {
+    animateMovement(n, fast, css_animation, duration, ease, trigger = 'unknown') {
         // Stop animation
         if (this.animator) {
             this.animator.stop();
         }
 
+        const marker = (n >= 0 && n < this._markers.length) ? this._markers[n] : null;
+
+        const currentLeftRaw = this._el.slider.style.left || '0px';
+        const currentLeft = parseInt(currentLeftRaw, 10) || 0;
+
+        let targetLeft = currentLeft;
+        let headline = null;
+        let markerId = null;
+
+        if (marker) {
+            targetLeft = -marker.getLeft() + (this.options.width / 2);
+
+            // Пытаемся достать читаемое имя композитора
+            if (marker._el && marker._el.headline && marker._el.headline.innerText) {
+                headline = marker._el.headline.innerText;
+            } else if (marker.data) {
+                if (marker.data.headline) {
+                    headline = marker.data.headline;
+                } else if (marker.data.text && marker.data.text.headline) {
+                    headline = marker.data.text.headline;
+                }
+            }
+
+            markerId = marker.data && marker.data.unique_id;
+        }
+
+        // Ограничиваем целевую позицию так же, как в _onMouseScroll
+        const constraint = {
+            right: this._getRightConstraint(),
+            left: this._getLeftConstraint()
+        };
+
+        if (targetLeft > constraint.left) {
+            targetLeft = constraint.left;
+        } else if (targetLeft < constraint.right) {
+            targetLeft = constraint.right;
+        }
+
+        const distance = targetLeft - currentLeft;
+
+        // Читаемый лог по-русски
+        console.log(
+            `TimeNav: композитор: ${headline || markerId}, расстояние: ${distance}, fromLeft: ${currentLeft}, toLeft: ${targetLeft}, триггер: ${trigger}`
+        );
+
+        // Подробный объект, если нужно копнуть глубже
+        console.log('[TimeNav move]', {
+            trigger,
+            markerIndex: n,
+            markerId,
+            markerHeadline: headline,
+            fromLeft: currentLeft,
+            toLeft: targetLeft,
+            distance
+        });
+
+        if (!marker) {
+            return;
+        }
+
         if (fast) {
             this._el.slider.className = "tl-timenav-slider";
-            this._el.slider.style.left = -this._markers[n].getLeft() +
-                (this.options.width / 2) + "px";
+            this._el.slider.style.left = targetLeft + "px";
         } else {
             if (css_animation) {
                 this._el.slider.className = "tl-timenav-slider tl-timenav-slider-animate";
                 this.animate_css = true;
-                this._el.slider.style.left = -this._markers[n].getLeft() +
-                    (this.options.width / 2) + "px";
+                this._el.slider.style.left = targetLeft + "px";
             } else {
                 this._el.slider.className = "tl-timenav-slider";
                 this.animator = Animate(this._el.slider, {
-                    left: -this._markers[n].getLeft() +
-                        (this.options.width / 2) + "px",
+                    left: targetLeft + "px",
                     duration: duration,
                     easing: ease
                 });
@@ -561,10 +679,6 @@ export class TimeNav {
         }
 
         this._dispatchVisibleTicksChange();
-    }
-
-    goToId(id, fast, css_animation) {
-        this.goTo(this._findMarkerIndex(id), fast, css_animation);
     }
 
     _dispatchVisibleTicksChange() {
@@ -602,6 +716,17 @@ export class TimeNav {
     }
 
     _onMarkerClick(e) {
+        // Remember the last manually clicked marker
+        this._lastClickId = e && e.unique_id;
+        this._lastClickTime = (typeof performance !== 'undefined' && performance.now)
+            ? performance.now()
+            : Date.now();
+
+        console.log('TimeNav: markerclick handler', {
+            unique_id: e && e.unique_id,
+            data_unique_id: e && e.data && e.data.unique_id,
+            rawEvent: e
+        });
         // Pause SoundCloud widget (if present) when clicking on a timenav marker
         try {
             if (typeof window !== 'undefined' && window.SC && typeof window.SC.Widget === 'function') {
@@ -621,7 +746,7 @@ export class TimeNav {
         }
 
         // Go to the clicked marker
-        this.goToId(e.unique_id);
+        this.goToId(e.unique_id, false, false, 'markerClick');
         this.fire("change", { unique_id: e.unique_id });
     }
 
@@ -631,13 +756,76 @@ export class TimeNav {
         this.focusOn(this._findMarkerIndex(this.current_id));
     }
 
+    /**
+ * Максимально допустимое значение slider.style.left,
+ * чтобы нельзя было уехать дальше в прошлое, чем до LIMIT_LEFT_YEAR.
+ */
+
+    /**
+ * Минимально допустимое значение slider.style.left,
+ * чтобы нельзя было уехать дальше в будущее, чем до LIMIT_RIGHT_YEAR.
+ */
+    _getRightConstraint() {
+        // Если захочешь другой лимит – поменяй этот год
+        const LIMIT_RIGHT_YEAR = 1980;
+
+        // Если timescale ещё не готов – используем стандартный правый край
+        if (!this.timescale ||
+            typeof this.timescale.getPosition !== 'function' ||
+            typeof this.timescale.getPixelWidth !== 'function') {
+            return -(this.timescale && typeof this.timescale.getPixelWidth === 'function'
+                ? (this.timescale.getPixelWidth() - this.options.width)
+                : 0);
+        }
+
+        try {
+            const limitDate = new Date(LIMIT_RIGHT_YEAR, 0, 1);
+            // Пиксельная позиция этого года на шкале
+            const limitX = this.timescale.getPosition(limitDate.getTime());
+
+            // Чтобы LIMIT_RIGHT_YEAR был у правого края (x = options.width),
+            // при slider.left == rightConstraint должно выполняться:
+            //   limitX + rightConstraint = options.width
+            const rightConstraint = this.options.width - limitX;
+
+            return rightConstraint;
+        } catch (e) {
+            // На всякий случай не ломаемся – возвращаем стандартный конец шкалы
+            return -(this.timescale.getPixelWidth() - this.options.width);
+        }
+    }
+
+    _getLeftConstraint() {
+        // Если захочешь другой лимит – поменяй этот год
+        const LIMIT_LEFT_YEAR = 1650;
+
+        // Если timescale ещё не готов – ведём себя как раньше
+        if (!this.timescale || typeof this.timescale.getPosition !== 'function') {
+            return 0;
+        }
+
+        try {
+            const limitDate = new Date(LIMIT_LEFT_YEAR, 0, 1);
+            // Пиксельная позиция этого года на шкале
+            const limitX = this.timescale.getPosition(limitDate.getTime());
+
+            // Чтобы LIMIT_LEFT_YEAR был у левого края, slider.left должен быть -limitX
+            const leftConstraint = -limitX;
+
+            return leftConstraint;
+        } catch (e) {
+            // На всякий случай не ломаемся
+            return 0;
+        }
+    }
+
     _onMouseScroll(e) {
 
         var delta = 0,
             scroll_to = 0,
             constraint = {
-                right: -(this.timescale.getPixelWidth() - (this.options.width / 2)),
-                left: this.options.width / 2
+                right: this._getRightConstraint(),
+                left: this._getLeftConstraint()
             };
         if (!e) {
             e = window.event;
@@ -800,12 +988,12 @@ export class TimeNav {
         this.timeaxis = new TimeAxis(this._el.timeaxis, this.options, this.language);
 
         // Swipable
-        // Previously drag was only enabled when grabbing the slider background.
-        // Now we listen on the whole container so that dragging also works
-        // when the user grabs marker "plaques" (.tl-timemarker-content-container).
-        this._swipable = new Swipable(this._el.container, this._el.slider, {
+        // Drag включён, когда пользователь тянет за фон слайдера.
+        // Так клики по плашкам композиторов не перехватываются Swipable
+        // и их собственные обработчики (markerclick) продолжают работать.
+        this._swipable = new Swipable(this._el.slider_background, this._el.slider, {
             enable: { x: true, y: false },
-            constraint: { top: false, bottom: false, left: (this.options.width / 2), right: false },
+            constraint: { top: false, bottom: false, left: 0, right: false },
             snap: false
         });
         this._swipable.enable();
